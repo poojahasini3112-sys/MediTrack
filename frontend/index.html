@@ -44,7 +44,7 @@
       <li class="menu-item">
         <a href="#patients" class="menu-link" onclick="navigate('patients')">
           <i class="bi bi-people-fill"></i>
-          <span>Patients (Module A)</span>
+          <span>Patient Directory</span>
         </a>
       </li>
       <li class="menu-item">
@@ -56,13 +56,13 @@
       <li class="menu-item">
         <a href="#admissions" class="menu-link" onclick="navigate('admissions')">
           <i class="bi bi-heart-pulse-fill"></i>
-          <span>Admissions & Beds</span>
+          <span>Inpatient Wards & Beds</span>
         </a>
       </li>
       <li class="menu-item">
         <a href="#records" class="menu-link" onclick="navigate('records')">
           <i class="bi bi-journal-medical"></i>
-          <span>Medical Records & Rx</span>
+          <span>Electronic Health Records</span>
         </a>
       </li>
 
@@ -102,7 +102,7 @@
       <li class="menu-item">
         <a href="#audit" class="menu-link" onclick="navigate('audit')">
           <i class="bi bi-shield-check"></i>
-          <span>Users & Audit Trail</span>
+          <span>System Security & Access</span>
         </a>
       </li>
     </ul>
@@ -132,12 +132,20 @@
         <small id="page-subtitle" class="text-muted">Real-time hospital operations overview & KPIs</small>
       </div>
 
-      <div class="topbar-actions">
-        <button class="btn btn-primary d-flex align-items-center gap-2 fw-semibold" onclick="openPatientModal()" style="background: linear-gradient(135deg, #0284c7, #0d9488); border: none;">
+      <div class="topbar-actions d-flex align-items-center gap-2">
+        <div class="d-none d-md-flex align-items-center bg-light border rounded-pill px-3 py-1.5 text-secondary small">
+          <i class="bi bi-person-badge-fill text-primary me-1"></i>
+          <span id="topbar-role-badge" class="fw-semibold text-dark">Portal: Admin</span>
+        </div>
+        <a href="/login.html" class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1.5 rounded-pill px-3 py-1.5" title="Switch between Admin, Doctor, and Patient portals">
+          <i class="bi bi-arrow-left-right text-primary"></i>
+          <span>Switch Login</span>
+        </a>
+        <button id="btn-topbar-register" class="btn btn-primary d-flex align-items-center gap-2 fw-semibold" onclick="openPatientModal()" style="background: linear-gradient(135deg, #0284c7, #0d9488); border: none;">
           <i class="bi bi-person-plus-fill"></i>
           <span>Register Patient</span>
         </button>
-        <button class="btn btn-outline-primary d-flex align-items-center gap-2 fw-semibold" onclick="openAppointmentModal()">
+        <button id="btn-topbar-book" class="btn btn-outline-primary d-flex align-items-center gap-2 fw-semibold" onclick="openAppointmentModal()">
           <i class="bi bi-calendar-plus"></i>
           <span>Book Appointment</span>
         </button>
@@ -216,7 +224,7 @@
             </div>
           </div>
 
-          <h6 class="fw-bold text-secondary mb-3"><i class="bi bi-telephone-fill me-1"></i> Emergency Contact (Table 2)</h6>
+          <h6 class="fw-bold text-secondary mb-3"><i class="bi bi-telephone-fill me-1"></i> Emergency Contact Information</h6>
           <div class="row g-3 mb-4">
             <div class="col-md-5">
               <label class="form-label small fw-semibold">Contact Person Name</label>
@@ -232,7 +240,7 @@
             </div>
           </div>
 
-          <h6 class="fw-bold text-secondary mb-3"><i class="bi bi-shield-exclamation me-1"></i> Clinical History & Allergies (Tables 3 & 4)</h6>
+          <h6 class="fw-bold text-secondary mb-3"><i class="bi bi-shield-exclamation me-1"></i> Clinical History & Known Allergies</h6>
           <div class="row g-3">
             <div class="col-md-6">
               <label class="form-label small fw-semibold">Known Pre-existing Condition</label>
@@ -382,7 +390,7 @@
           </div>
           <div class="row g-3 mb-4">
             <div class="col-md-6">
-              <label class="form-label small fw-semibold">Primary Diagnosis (ICD Catalog) *</label>
+              <label class="form-label small fw-semibold">Primary Clinical Diagnosis (ICD-10) *</label>
               <select id="mr-diagnosis" class="form-select" required></select>
             </div>
             <div class="col-md-6">
@@ -391,7 +399,7 @@
             </div>
           </div>
 
-          <h6 class="fw-bold text-secondary mb-2"><i class="bi bi-capsule me-1"></i> Prescribe Medication (M:N Prescription_Detail)</h6>
+          <h6 class="fw-bold text-secondary mb-2"><i class="bi bi-capsule me-1"></i> Prescribed Medications (Rx)</h6>
           <div class="row g-2 mb-2">
             <div class="col-md-4">
               <label class="form-label small fw-semibold">Medicine</label>

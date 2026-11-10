@@ -58,10 +58,10 @@ app.use(errorHandler);
 // Start server
 const server = app.listen(PORT, () => {
   console.log(`================================================================`);
-  console.log(`🏥 HOSPITAL MANAGEMENT SYSTEM BACKEND SERVER`);
-  console.log(`🚀 Server running on: http://localhost:${PORT}`);
-  console.log(`🌐 Frontend UI live at: http://localhost:${PORT}`);
-  console.log(`🔌 API Base URL:      http://localhost:${PORT}/api`);
+  console.log(`MediTrack Health Information System (HIS) - Production Server`);
+  console.log(`Server running on:   http://localhost:${PORT}`);
+  console.log(`Frontend UI live at: http://localhost:${PORT}`);
+  console.log(`API Base URL:        http://localhost:${PORT}/api`);
   console.log(`================================================================`);
 });
 

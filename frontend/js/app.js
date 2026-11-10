@@ -31,6 +31,8 @@ function setupUserHeader() {
   const avatarEl = document.getElementById('sidebar-avatar');
   const userEl = document.getElementById('sidebar-username');
   const roleEl = document.getElementById('sidebar-role');
+  const topbarBadge = document.getElementById('topbar-role-badge');
+  const btnTopbarRegister = document.getElementById('btn-topbar-register');
 
   if (avatarEl && currentUser) {
     avatarEl.textContent = (currentUser.name || currentUser.username || 'A')[0].toUpperCase();
@@ -39,7 +41,143 @@ function setupUserHeader() {
     userEl.textContent = currentUser.name || currentUser.username;
   }
   if (roleEl && currentUser) {
+    const roleColors = {
+      Admin: 'bg-primary-subtle text-primary',
+      Doctor: 'bg-success-subtle text-success',
+      Patient: 'bg-info-subtle text-dark'
+    };
+    roleEl.className = `badge ${roleColors[currentUser.role] || 'bg-primary-subtle text-primary'}`;
     roleEl.textContent = currentUser.role || 'Admin';
+  }
+  if (topbarBadge && currentUser) {
+    topbarBadge.innerHTML = `<span class="badge ${currentUser.role === 'Doctor' ? 'bg-success' : currentUser.role === 'Patient' ? 'bg-info text-dark' : 'bg-primary'} me-1">${currentUser.role} Portal</span> ${currentUser.name || currentUser.username}`;
+  }
+
+  // Adjust Topbar Action Buttons for Role
+  if (btnTopbarRegister) {
+    if (currentUser.role === 'Patient') {
+      btnTopbarRegister.style.display = 'none';
+    } else if (currentUser.role === 'Doctor') {
+      btnTopbarRegister.innerHTML = '<i class="bi bi-journal-plus me-1"></i><span>New Clinical Rx</span>';
+      btnTopbarRegister.onclick = openMedicalRecordModal;
+      btnTopbarRegister.style.display = 'inline-flex';
+    } else {
+      btnTopbarRegister.innerHTML = '<i class="bi bi-person-plus-fill me-1"></i><span>Register Patient</span>';
+      btnTopbarRegister.onclick = openPatientModal;
+      btnTopbarRegister.style.display = 'inline-flex';
+    }
+  }
+
+  // Dynamic Sidebar Navigation by Role
+  renderRoleSidebar();
+}
+
+function renderRoleSidebar() {
+  const menuContainer = document.querySelector('.sidebar-menu');
+  if (!menuContainer || !currentUser) return;
+
+  if (currentUser.role === 'Patient') {
+    menuContainer.innerHTML = `
+      <li class="menu-category">Patient Health Portal</li>
+      <li class="menu-item">
+        <a href="#dashboard" class="menu-link active" onclick="navigate('dashboard')">
+          <i class="bi bi-heart-pulse-fill text-danger"></i>
+          <span>My Health Overview</span>
+        </a>
+      </li>
+      <li class="menu-category">My Clinical Care</li>
+      <li class="menu-item">
+        <a href="#appointments" class="menu-link" onclick="navigate('appointments')">
+          <i class="bi bi-calendar-check-fill text-primary"></i>
+          <span>My Consultations</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="#admissions" class="menu-link" onclick="navigate('admissions')">
+          <i class="bi bi-hospital text-secondary"></i>
+          <span>My Room & Inpatient Stay</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="#records" class="menu-link" onclick="navigate('records')">
+          <i class="bi bi-journal-medical text-accent"></i>
+          <span>My Prescriptions (Rx)</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="#laboratory" class="menu-link" onclick="navigate('laboratory')">
+          <i class="bi bi-eyedropper text-info"></i>
+          <span>My Diagnostic Reports</span>
+        </a>
+      </li>
+      <li class="menu-category">Hospital Directory & Billing</li>
+      <li class="menu-item">
+        <a href="#doctors" class="menu-link" onclick="navigate('doctors')">
+          <i class="bi bi-person-badge-fill text-primary"></i>
+          <span>Specialist Doctors</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="#billing" class="menu-link" onclick="navigate('billing')">
+          <i class="bi bi-receipt-cutoff text-success"></i>
+          <span>My Invoices & Payments</span>
+        </a>
+      </li>
+    `;
+  } else if (currentUser.role === 'Doctor') {
+    menuContainer.innerHTML = `
+      <li class="menu-category">Doctor Workstation</li>
+      <li class="menu-item">
+        <a href="#dashboard" class="menu-link active" onclick="navigate('dashboard')">
+          <i class="bi bi-grid-1x2-fill text-primary"></i>
+          <span>Doctor Dashboard</span>
+        </a>
+      </li>
+      <li class="menu-category">Clinical Practice</li>
+      <li class="menu-item">
+        <a href="#appointments" class="menu-link" onclick="navigate('appointments')">
+          <i class="bi bi-calendar-check-fill text-secondary"></i>
+          <span>Consultation Queue</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="#admissions" class="menu-link" onclick="navigate('admissions')">
+          <i class="bi bi-hospital-fill text-danger"></i>
+          <span>Inpatient Ward Rounds</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="#records" class="menu-link" onclick="navigate('records')">
+          <i class="bi bi-journal-medical text-accent"></i>
+          <span>Medical Records & Rx</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="#patients" class="menu-link" onclick="navigate('patients')">
+          <i class="bi bi-people-fill text-primary"></i>
+          <span>Patient Directory</span>
+        </a>
+      </li>
+      <li class="menu-category">Diagnostics & Hospital</li>
+      <li class="menu-item">
+        <a href="#laboratory" class="menu-link" onclick="navigate('laboratory')">
+          <i class="bi bi-eyedropper text-info"></i>
+          <span>Laboratory Test Reports</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="#doctors" class="menu-link" onclick="navigate('doctors')">
+          <i class="bi bi-person-badge-fill text-secondary"></i>
+          <span>Medical Staff & Schedule</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="#departments" class="menu-link" onclick="navigate('departments')">
+          <i class="bi bi-diagram-3-fill text-accent"></i>
+          <span>Clinical Departments</span>
+        </a>
+      </li>
+    `;
   }
 }
 
@@ -64,17 +202,33 @@ function navigate(viewName) {
   });
 
   const titles = {
-    dashboard: ['Executive Dashboard', 'Real-time hospital operations overview & KPIs'],
-    patients: ['Patient Management', 'Demographics, medical history, allergies & emergency contacts (Module A)'],
-    appointments: ['Appointment Scheduling', 'Doctor outpatient consultations & status tracking (Module C)'],
-    admissions: ['Inpatient Admissions & Bed Allocation', 'Live ward occupancy, rooms, beds & discharge management (Module C)'],
-    records: ['Medical Records & Prescriptions', 'Clinical encounters, ICD-10 diagnoses & multi-item Rx (Module D)'],
-    doctors: ['Doctors & Medical Staff', 'Physicians, specialists, nurses, and weekly consultation schedules (Module B)'],
-    departments: ['Clinical Departments', 'Specialized medical divisions, heads of department, and facilities (Module B)'],
-    laboratory: ['Laboratory Services', 'Diagnostic test catalog, sample orders, and pathologist reports (Module E)'],
-    pharmacy: ['Pharmacy & Medicine Inventory', 'Pharmaceutical stocks, batch expiry tracking, and purchase orders (Module F)'],
-    billing: ['Billing, Payments & Insurance', 'Inpatient/OPD invoices, payment collections, and insurance claims (Module G)'],
-    audit: ['Security & Audit Trail', 'User accounts, role-based access control, and immutable change logs (Module H)']
+    dashboard: currentUser && currentUser.role === 'Patient'
+      ? ['My Health Dashboard', 'Personal clinical records, appointments & inpatient stay overview']
+      : currentUser && currentUser.role === 'Doctor'
+      ? ['Doctor Clinical Workstation', 'Today\'s consultation queue, inpatient ward rounds & prescriptions']
+      : ['Executive Dashboard', 'Real-time hospital operations overview & KPIs'],
+    patients: ['Patient Management', 'Demographics, medical history, allergies & emergency contacts'],
+    appointments: currentUser && currentUser.role === 'Patient'
+      ? ['My Consultations', 'Scheduled outpatient appointments & consultation history']
+      : currentUser && currentUser.role === 'Doctor'
+      ? ['Doctor Consultation Queue', 'Today\'s patient appointments & consultation schedule']
+      : ['Appointment Scheduling', 'Doctor outpatient consultations & status tracking'],
+    admissions: currentUser && currentUser.role === 'Patient'
+      ? ['My Room & Inpatient Stay', 'Active room allocation, bed number & admission records']
+      : ['Inpatient Admissions & Bed Allocation', 'Live ward occupancy, rooms, beds & discharge management'],
+    records: currentUser && currentUser.role === 'Patient'
+      ? ['My Prescriptions & Medical Records', 'Prescribed medications, dosage instructions & diagnosis records']
+      : ['Medical Records & Prescriptions', 'Clinical encounters, ICD-10 diagnoses & multi-item Rx'],
+    doctors: ['Doctors & Medical Staff', 'Physicians, specialists, nurses, and weekly consultation schedules'],
+    departments: ['Clinical Departments', 'Specialized medical divisions, heads of department, and facilities'],
+    laboratory: currentUser && currentUser.role === 'Patient'
+      ? ['My Diagnostic Reports', 'Laboratory test findings, pathology reports & results']
+      : ['Laboratory Services', 'Diagnostic test catalog, sample orders, and pathologist reports'],
+    pharmacy: ['Pharmacy & Medicine Inventory', 'Pharmaceutical stocks, batch expiry tracking, and purchase orders'],
+    billing: currentUser && currentUser.role === 'Patient'
+      ? ['My Invoices & Payments', 'Consultation fees, hospital room charges & payment receipts']
+      : ['Billing, Payments & Insurance', 'Inpatient/OPD invoices, payment collections, and insurance claims'],
+    audit: ['Security & Audit Trail', 'User accounts, role-based access control, and immutable change logs']
   };
 
   const [title, subtitle] = titles[viewName] || ['Hospital Management', 'Clinical Enterprise'];
@@ -172,9 +326,16 @@ async function preloadDropdownData() {
 }
 
 // -------------------------------------------------------------
-// VIEW 1: DASHBOARD
+// VIEW 1: DASHBOARD (ROLE-BASED: ADMIN, DOCTOR, PATIENT)
 // -------------------------------------------------------------
 async function loadDashboard() {
+  if (currentUser && currentUser.role === 'Patient') {
+    return loadPatientDashboard();
+  }
+  if (currentUser && currentUser.role === 'Doctor') {
+    return loadDoctorDashboard();
+  }
+
   const res = await fetchAPI('/dashboard/stats');
   if (!res.success) return;
   const { stats, recentAdmissions, upcomingAppointments, bedBreakdown } = res;
@@ -345,8 +506,469 @@ async function loadDashboard() {
 }
 
 // -------------------------------------------------------------
-// VIEW 2: PATIENTS (MODULE A)
+// PATIENT HEALTH PORTAL DASHBOARD
 // -------------------------------------------------------------
+async function loadPatientDashboard() {
+  const patientId = currentUser.patientId || 1;
+  const contentArea = document.getElementById('dynamic-content');
+
+  // Fetch patient-specific records
+  const [appRes, admRes, recRes, billRes] = await Promise.all([
+    fetchAPI(`/appointments?patientId=${patientId}`),
+    fetchAPI(`/admissions?patientId=${patientId}`),
+    fetchAPI(`/medical-records?patientId=${patientId}`),
+    fetchAPI(`/billing/bills?patientId=${patientId}`)
+  ]);
+
+  const appointments = (appRes.success && appRes.data) || [];
+  const admissions = (admRes.success && admRes.data) || [];
+  const records = (recRes.success && recRes.data) || [];
+  const bills = (billRes.success && billRes.data) || [];
+
+  const activeAdmission = admissions.find(a => a.Status === 'Admitted') || admissions[0] || null;
+  const nextApp = appointments.find(a => a.Status === 'Scheduled') || appointments[0] || null;
+  const unpaidBills = bills.filter(b => b.Payment_Status !== 'Paid');
+  const totalPendingAmount = unpaidBills.reduce((acc, b) => acc + parseFloat(b.Net_Amount || 0), 0);
+
+  contentArea.innerHTML = `
+    <div class="view-section">
+      <!-- Patient Welcome Hero Banner -->
+      <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 text-white" style="background: linear-gradient(135deg, #0284c7 0%, #0d9488 100%);">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+          <div class="d-flex align-items-center gap-3">
+            <div style="width: 60px; height: 60px; background: rgba(255,255,255,0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 30px; border: 2px solid rgba(255,255,255,0.3);">
+              <i class="bi bi-person-heart"></i>
+            </div>
+            <div>
+              <span class="badge bg-white text-primary fw-bold mb-1"><i class="bi bi-shield-check"></i> Patient Care Portal</span>
+              <h3 class="fw-bold mb-0">Welcome, ${currentUser.name}!</h3>
+              <p class="mb-0 text-white-50 small mt-1">
+                Patient ID: <strong>#PID-${String(patientId).padStart(4, '0')}</strong> &bull; Care Status: <strong class="text-white">${activeAdmission ? 'Inpatient Stay (Admitted)' : 'Outpatient Care (Active)'}</strong>
+              </p>
+            </div>
+          </div>
+          <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-light fw-semibold text-primary shadow-sm" onclick="openAppointmentModal()">
+              <i class="bi bi-calendar-plus me-1"></i> Book Consultation
+            </button>
+            <button class="btn btn-outline-light fw-semibold" onclick="navigate('records')">
+              <i class="bi bi-journal-medical me-1"></i> View Prescriptions
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Patient Health KPI Summary Cards -->
+      <div class="row g-3 mb-4">
+        <!-- Next Appointment -->
+        <div class="col-xl-3 col-md-6">
+          <div class="stat-card">
+            <div class="d-flex align-items-center justify-content-between">
+              <div>
+                <span class="stat-label">Upcoming Consultation</span>
+                <div class="stat-value text-primary fs-5 mt-1" style="line-height: 1.3;">
+                  ${nextApp ? nextApp.Doctor_Name : 'None Scheduled'}
+                </div>
+              </div>
+              <div class="stat-icon primary"><i class="bi bi-calendar-event"></i></div>
+            </div>
+            <div class="mt-2 text-muted small">
+              ${nextApp ? `<i class="bi bi-clock text-primary me-1"></i>${formatDate(nextApp.Appointment_Date)} at ${nextApp.Appointment_Time}` : 'Click Book Consultation anytime'}
+            </div>
+          </div>
+        </div>
+
+        <!-- Room & Bed Allocation -->
+        <div class="col-xl-3 col-md-6">
+          <div class="stat-card">
+            <div class="d-flex align-items-center justify-content-between">
+              <div>
+                <span class="stat-label">Room & Bed Allocation</span>
+                <div class="stat-value text-secondary fs-5 mt-1" style="line-height: 1.3;">
+                  ${activeAdmission && activeAdmission.Room_Number ? `Room ${activeAdmission.Room_Number}` : 'Outpatient'}
+                </div>
+              </div>
+              <div class="stat-icon secondary"><i class="bi bi-hospital"></i></div>
+            </div>
+            <div class="mt-2 text-muted small">
+              ${activeAdmission ? `<span class="badge bg-secondary-subtle text-secondary me-1">Bed ${activeAdmission.Bed_Number || 'Assigned'}</span> (${activeAdmission.Room_Type || 'Ward'})` : 'No active inpatient stay'}
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Prescriptions -->
+        <div class="col-xl-3 col-md-6">
+          <div class="stat-card">
+            <div class="d-flex align-items-center justify-content-between">
+              <div>
+                <span class="stat-label">Prescriptions & Rx</span>
+                <div class="stat-value text-accent">${records.length} Records</div>
+              </div>
+              <div class="stat-icon accent"><i class="bi bi-capsule"></i></div>
+            </div>
+            <div class="mt-2 text-muted small"><i class="bi bi-check-circle-fill text-success me-1"></i> Issued by MediTrack Physicians</div>
+          </div>
+        </div>
+
+        <!-- Billing Balance -->
+        <div class="col-xl-3 col-md-6">
+          <div class="stat-card">
+            <div class="d-flex align-items-center justify-content-between">
+              <div>
+                <span class="stat-label">Hospital Invoices</span>
+                <div class="stat-value ${totalPendingAmount > 0 ? 'text-danger' : 'text-success'}">
+                  ₹${totalPendingAmount.toLocaleString('en-IN')}
+                </div>
+              </div>
+              <div class="stat-icon ${totalPendingAmount > 0 ? 'danger' : 'success'}"><i class="bi bi-receipt"></i></div>
+            </div>
+            <div class="mt-2 text-muted small">
+              ${totalPendingAmount > 0 ? `<span class="text-danger fw-semibold">${unpaidBills.length} Bill(s) Pending</span>` : '<span class="text-success fw-semibold"><i class="bi bi-check-all"></i> All Invoices Settled</span>'}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inpatient Care & Consultations Row -->
+      <div class="row g-4 mb-4">
+        <!-- Inpatient Room & Stay Details -->
+        <div class="col-lg-6">
+          <div class="content-card h-100">
+            <div class="card-header-custom">
+              <h5><i class="bi bi-hospital text-primary me-2"></i> My Clinical Admission Stay</h5>
+              <button class="btn btn-sm btn-outline-primary" onclick="navigate('admissions')">View Ward</button>
+            </div>
+            <div class="p-3">
+              ${activeAdmission ? `
+                <div class="border rounded-3 p-3 bg-light mb-3">
+                  <div class="row g-2">
+                    <div class="col-6"><small class="text-muted d-block">Attending Doctor:</small><strong class="text-dark"><i class="bi bi-person-badge text-primary me-1"></i>${activeAdmission.Doctor_Name}</strong></div>
+                    <div class="col-6"><small class="text-muted d-block">Specialization:</small><span class="badge bg-primary-subtle text-primary">${activeAdmission.Specialization || 'Clinical Care'}</span></div>
+                    <div class="col-6 mt-2"><small class="text-muted d-block">Room Assigned:</small><strong>Room ${activeAdmission.Room_Number} (${activeAdmission.Room_Type || 'Deluxe'})</strong></div>
+                    <div class="col-6 mt-2"><small class="text-muted d-block">Bed Allocation:</small><span class="badge bg-success-subtle text-success">Bed #${activeAdmission.Bed_Number || 'Assigned'}</span></div>
+                    <div class="col-6 mt-2"><small class="text-muted d-block">Admitted On:</small><span class="text-dark">${formatDate(activeAdmission.Admitted_Date)}</span></div>
+                    <div class="col-6 mt-2"><small class="text-muted d-block">Stay Status:</small><span class="badge bg-success">${activeAdmission.Status}</span></div>
+                    <div class="col-12 mt-2"><small class="text-muted d-block">Admission Reason:</small><span class="text-secondary">${activeAdmission.Admission_Reason || 'Standard clinical observation & treatment'}</span></div>
+                  </div>
+                </div>
+              ` : `
+                <div class="text-center py-4 text-muted">
+                  <i class="bi bi-info-circle fs-3 d-block mb-2 text-secondary"></i>
+                  <p class="mb-0">You are currently registered as an <strong>Outpatient</strong>.<br>No inpatient room stay is active.</p>
+                </div>
+              `}
+            </div>
+          </div>
+        </div>
+
+        <!-- Scheduled Appointments -->
+        <div class="col-lg-6">
+          <div class="content-card h-100">
+            <div class="card-header-custom">
+              <h5><i class="bi bi-calendar-check text-secondary me-2"></i> My Consultations</h5>
+              <button class="btn btn-sm btn-primary" onclick="openAppointmentModal()"><i class="bi bi-plus me-1"></i> Book</button>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-custom">
+                <thead>
+                  <tr>
+                    <th>Date & Time</th>
+                    <th>Doctor</th>
+                    <th>Room</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${appointments.length === 0 ? '<tr><td colspan="4" class="text-center py-4 text-muted">No appointments booked yet. Click Book to schedule.</td></tr>' : 
+                    appointments.slice(0, 5).map(ap => `
+                      <tr>
+                        <td>
+                          <strong>${formatDate(ap.Appointment_Date)}</strong>
+                          <div class="text-muted small">${ap.Appointment_Time}</div>
+                        </td>
+                        <td>
+                          <div class="fw-semibold">${ap.Doctor_Name}</div>
+                          <small class="text-muted">${ap.Specialization}</small>
+                        </td>
+                        <td>${ap.Room_Number ? 'OPD ' + ap.Room_Number : 'Room 101'}</td>
+                        <td><span class="badge ${ap.Status === 'Scheduled' ? 'bg-primary' : ap.Status === 'Completed' ? 'bg-success' : 'bg-danger'}">${ap.Status}</span></td>
+                      </tr>
+                    `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prescriptions and Bills Row -->
+      <div class="row g-4">
+        <!-- Medical Records & Rx -->
+        <div class="col-lg-6">
+          <div class="content-card h-100">
+            <div class="card-header-custom">
+              <h5><i class="bi bi-capsule text-accent me-2"></i> My Prescriptions & Treatment</h5>
+              <button class="btn btn-sm btn-outline-primary" onclick="navigate('records')">View All</button>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-custom">
+                <thead>
+                  <tr>
+                    <th>Visit Date</th>
+                    <th>Diagnosis</th>
+                    <th>Physician</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${records.length === 0 ? '<tr><td colspan="3" class="text-center py-4 text-muted">No clinical records found.</td></tr>' :
+                    records.slice(0, 5).map(r => `
+                      <tr>
+                        <td><strong>${formatDate(r.Visit_Date)}</strong></td>
+                        <td><span class="badge bg-info-subtle text-dark">${r.Diagnoses_List || 'Clinical Consultation'}</span></td>
+                        <td>${r.Doctor_Name}</td>
+                      </tr>
+                    `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hospital Bills -->
+        <div class="col-lg-6">
+          <div class="content-card h-100">
+            <div class="card-header-custom">
+              <h5><i class="bi bi-receipt-cutoff text-success me-2"></i> My Invoices & Payments</h5>
+              <button class="btn btn-sm btn-outline-primary" onclick="navigate('billing')">View All Bills</button>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-custom">
+                <thead>
+                  <tr>
+                    <th>Bill #</th>
+                    <th>Date</th>
+                    <th>Net Amount</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${bills.length === 0 ? '<tr><td colspan="5" class="text-center py-4 text-muted">No hospital invoices billed to your account.</td></tr>' :
+                    bills.slice(0, 5).map(b => `
+                      <tr>
+                        <td><strong>#INV-${b.Bill_ID}</strong></td>
+                        <td>${formatDate(b.Bill_Date)}</td>
+                        <td class="fw-bold">₹${parseFloat(b.Net_Amount).toLocaleString('en-IN')}</td>
+                        <td><span class="badge ${b.Payment_Status === 'Paid' ? 'bg-success' : 'bg-warning text-dark'}">${b.Payment_Status}</span></td>
+                        <td>
+                          ${b.Payment_Status !== 'Paid' ? `
+                            <button class="btn btn-sm btn-success px-2 py-0" onclick="openPaymentModal(${b.Bill_ID}, ${b.Net_Amount})">
+                              <i class="bi bi-credit-card me-1"></i>Pay Now
+                            </button>
+                          ` : `<span class="text-success small fw-semibold"><i class="bi bi-check-circle me-1"></i>Settled</span>`}
+                        </td>
+                      </tr>
+                    `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// -------------------------------------------------------------
+// DOCTOR CLINICAL WORKSTATION DASHBOARD
+// -------------------------------------------------------------
+async function loadDoctorDashboard() {
+  const doctorStaffId = currentUser.staffId || 1;
+  const contentArea = document.getElementById('dynamic-content');
+
+  // Fetch doctor-specific records
+  const [appRes, admRes, recRes, statsRes] = await Promise.all([
+    fetchAPI(`/appointments?doctorId=${doctorStaffId}`),
+    fetchAPI('/admissions'),
+    fetchAPI(`/medical-records?doctorId=${doctorStaffId}`),
+    fetchAPI('/dashboard/stats')
+  ]);
+
+  const appointments = (appRes.success && appRes.data) || [];
+  const allAdmissions = (admRes.success && admRes.data) || [];
+  const records = (recRes.success && recRes.data) || [];
+  const myInpatients = allAdmissions.filter(a => a.Attending_Doctor_ID === doctorStaffId || a.Status === 'Admitted');
+
+  // Today's appointments
+  const todayStr = new Date().toISOString().split('T')[0];
+  const todayApps = appointments.filter(a => (a.Appointment_Date || '').startsWith(todayStr) || a.Status === 'Scheduled');
+
+  contentArea.innerHTML = `
+    <div class="view-section">
+      <!-- Doctor Hero Banner -->
+      <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 text-white" style="background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+          <div class="d-flex align-items-center gap-3">
+            <div style="width: 60px; height: 60px; background: rgba(255,255,255,0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 30px; border: 2px solid rgba(255,255,255,0.3);">
+              <i class="bi bi-heart-pulse-fill"></i>
+            </div>
+            <div>
+              <span class="badge bg-white text-dark fw-bold mb-1"><i class="bi bi-stethoscope"></i> Doctor Clinical Workstation</span>
+              <h3 class="fw-bold mb-0">Welcome, Dr. ${currentUser.name}!</h3>
+              <p class="mb-0 text-white-50 small mt-1">
+                Specialist Practitioner &bull; Staff ID: <strong>#STF-${String(doctorStaffId).padStart(3, '0')}</strong> &bull; MediTrack Clinical Department
+              </p>
+            </div>
+          </div>
+          <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-light fw-semibold text-dark shadow-sm" onclick="openMedicalRecordModal()">
+              <i class="bi bi-journal-plus me-1"></i> New Clinical Record (Rx)
+            </button>
+            <button class="btn btn-outline-light fw-semibold" onclick="openLabOrderModal()">
+              <i class="bi bi-eyedropper me-1"></i> Order Lab Test
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Doctor Clinical KPIs -->
+      <div class="row g-3 mb-4">
+        <div class="col-xl-3 col-md-6">
+          <div class="stat-card">
+            <div class="d-flex align-items-center justify-content-between">
+              <div>
+                <span class="stat-label">Scheduled Consultations</span>
+                <div class="stat-value text-primary">${todayApps.length} Patients</div>
+              </div>
+              <div class="stat-icon primary"><i class="bi bi-calendar-check-fill"></i></div>
+            </div>
+            <div class="mt-2 text-muted small"><i class="bi bi-clock-history text-primary me-1"></i> In Today's Outpatient Queue</div>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+          <div class="stat-card">
+            <div class="d-flex align-items-center justify-content-between">
+              <div>
+                <span class="stat-label">Inpatients in Ward</span>
+                <div class="stat-value text-secondary">${myInpatients.length} Active</div>
+              </div>
+              <div class="stat-icon secondary"><i class="bi bi-hospital-fill"></i></div>
+            </div>
+            <div class="mt-2 text-muted small">Admitted Ward Beds for Daily Rounds</div>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+          <div class="stat-card">
+            <div class="d-flex align-items-center justify-content-between">
+              <div>
+                <span class="stat-label">Clinical Encounters</span>
+                <div class="stat-value text-accent">${records.length} Completed</div>
+              </div>
+              <div class="stat-icon accent"><i class="bi bi-journal-check"></i></div>
+            </div>
+            <div class="mt-2 text-muted small">Diagnoses & Prescriptions Written</div>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+          <div class="stat-card">
+            <div class="d-flex align-items-center justify-content-between">
+              <div>
+                <span class="stat-label">Hospital Bed Capacity</span>
+                <div class="stat-value text-success">${statsRes.stats ? statsRes.stats.occupiedBeds : 0} / ${statsRes.stats ? statsRes.stats.totalBeds : 0}</div>
+              </div>
+              <div class="stat-icon success"><i class="bi bi-pie-chart-fill"></i></div>
+            </div>
+            <div class="mt-2 text-muted small">Current Inpatient Ward Occupancy</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tables: Consultation Queue & Inpatient Ward -->
+      <div class="row g-4">
+        <!-- Consultation Queue -->
+        <div class="col-lg-6">
+          <div class="content-card h-100">
+            <div class="card-header-custom">
+              <h5><i class="bi bi-calendar-check text-primary me-2"></i> My Consultation Queue</h5>
+              <button class="btn btn-sm btn-outline-primary" onclick="navigate('appointments')">Full Queue</button>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-custom">
+                <thead>
+                  <tr>
+                    <th>Patient</th>
+                    <th>Time</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${appointments.length === 0 ? '<tr><td colspan="5" class="text-center py-4 text-muted">No appointments assigned.</td></tr>' :
+                    appointments.slice(0, 6).map(ap => `
+                      <tr>
+                        <td>
+                          <div class="fw-bold">${ap.Patient_Name}</div>
+                          <small class="text-muted">Blood: ${ap.Blood_Group || 'O+'}</small>
+                        </td>
+                        <td>${ap.Appointment_Time}</td>
+                        <td><small>${ap.Reason || 'Regular checkup'}</small></td>
+                        <td><span class="badge ${ap.Status === 'Scheduled' ? 'bg-primary' : 'bg-success'}">${ap.Status}</span></td>
+                        <td>
+                          <button class="btn btn-sm btn-outline-primary px-2 py-0" onclick="openMedicalRecordModal()">
+                            <i class="bi bi-pencil-square me-1"></i>Rx
+                          </button>
+                        </td>
+                      </tr>
+                    `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ward Inpatients -->
+        <div class="col-lg-6">
+          <div class="content-card h-100">
+            <div class="card-header-custom">
+              <h5><i class="bi bi-hospital text-danger me-2"></i> Inpatient Ward Admissions</h5>
+              <button class="btn btn-sm btn-outline-primary" onclick="navigate('admissions')">Bed Board</button>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-custom">
+                <thead>
+                  <tr>
+                    <th>Patient</th>
+                    <th>Room & Bed</th>
+                    <th>Admitted</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${myInpatients.length === 0 ? '<tr><td colspan="4" class="text-center py-4 text-muted">No inpatients currently admitted.</td></tr>' :
+                    myInpatients.slice(0, 6).map(adm => `
+                      <tr>
+                        <td><strong>${adm.Patient_Name}</strong></td>
+                        <td>
+                          <span class="badge bg-secondary-subtle text-secondary">Room ${adm.Room_Number || '101'}</span>
+                          <span class="badge bg-success-subtle text-success">Bed ${adm.Bed_Number || 'A'}</span>
+                        </td>
+                        <td><small>${formatDate(adm.Admitted_Date)}</small></td>
+                        <td><span class="badge bg-success">${adm.Status}</span></td>
+                      </tr>
+                    `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
 async function loadPatients() {
   const res = await fetchAPI('/patients');
   if (!res.success) return;
@@ -580,10 +1202,16 @@ async function viewPatient360(patientId) {
 }
 
 // -------------------------------------------------------------
-// VIEW 3: APPOINTMENTS (MODULE C)
+// VIEW 3: OUTPATIENT APPOINTMENT SCHEDULING
 // -------------------------------------------------------------
 async function loadAppointments() {
-  const res = await fetchAPI('/appointments');
+  let endpoint = '/appointments';
+  if (currentUser && currentUser.role === 'Patient' && currentUser.patientId) {
+    endpoint += `?patientId=${currentUser.patientId}`;
+  } else if (currentUser && currentUser.role === 'Doctor' && currentUser.staffId) {
+    endpoint += `?doctorId=${currentUser.staffId}`;
+  }
+  const res = await fetchAPI(endpoint);
   if (!res.success) return;
   const appointments = res.data;
 
@@ -662,7 +1290,7 @@ async function updateApptStatus(appointmentId, status) {
 }
 
 // -------------------------------------------------------------
-// VIEW 4: ADMISSIONS & BEDS (MODULE C)
+// VIEW 4: INPATIENT ADMISSIONS & BED MANAGEMENT
 // -------------------------------------------------------------
 async function loadAdmissions() {
   const [boardRes, admRes] = await Promise.all([
@@ -700,7 +1328,7 @@ async function loadAdmissions() {
                       <div class="bed-chip ${bed.Status.toLowerCase()}">
                         <div>
                           <i class="bi bi-hdd-rack me-1"></i> <strong>${bed.Bed_Number}</strong>
-                          ${bed.Patient_Name ? `<div class="small fw-semibold text-danger">👤 ${bed.Patient_Name}</div>` : ''}
+                          ${bed.Patient_Name ? `<div class="small fw-semibold text-danger"><i class="bi bi-person me-1"></i>${bed.Patient_Name}</div>` : ''}
                         </div>
                         <span class="badge ${bed.Status === 'Available' ? 'bg-success' : 'bg-danger'}">${bed.Status}</span>
                       </div>
@@ -773,10 +1401,16 @@ async function dischargePatientAction(admissionId) {
 }
 
 // -------------------------------------------------------------
-// VIEW 5: MEDICAL RECORDS & DIAGNOSES & PRESCRIPTIONS (MODULE D)
+// VIEW 5: ELECTRONIC HEALTH RECORDS & CLINICAL ENCOUNTERS
 // -------------------------------------------------------------
 async function loadRecords() {
-  const res = await fetchAPI('/medical-records');
+  let endpoint = '/medical-records';
+  if (currentUser && currentUser.role === 'Patient' && currentUser.patientId) {
+    endpoint += `?patientId=${currentUser.patientId}`;
+  } else if (currentUser && currentUser.role === 'Doctor' && currentUser.staffId) {
+    endpoint += `?doctorId=${currentUser.staffId}`;
+  }
+  const res = await fetchAPI(endpoint);
   if (!res.success) return;
   const records = res.data;
 
@@ -875,7 +1509,7 @@ async function viewRecordDetails(recordId) {
       </div>
     </div>
 
-    <h6 class="fw-bold text-primary mb-2"><i class="bi bi-capsule me-1"></i> Prescribed Medicines (Table 19: Prescription_Detail)</h6>
+    <h6 class="fw-bold text-primary mb-2"><i class="bi bi-capsule me-1"></i> Prescribed Medications (Rx)</h6>
     ${r.prescriptions.length === 0 ? '<p class="text-muted">No prescriptions written for this visit.</p>' : `
       <div class="table-responsive">
         <table class="table table-bordered table-sm">
@@ -904,7 +1538,7 @@ async function viewRecordDetails(recordId) {
 }
 
 // -------------------------------------------------------------
-// VIEW 6: DOCTORS & STAFF (MODULE B)
+// VIEW 6: MEDICAL SPECIALISTS & CLINICAL STAFF
 // -------------------------------------------------------------
 async function loadDoctors() {
   const [docRes, nurseRes, staffRes] = await Promise.all([
@@ -923,7 +1557,7 @@ async function loadDoctors() {
       <!-- Doctors Cards -->
       <div class="content-card mb-4">
         <div class="card-header-custom">
-          <h5><i class="bi bi-person-badge text-primary"></i> Specialist Medical Doctors (Table 7: Subtype)</h5>
+          <h5><i class="bi bi-person-badge text-primary"></i> Specialist Medical Doctors & Consultants</h5>
         </div>
         <div class="p-3">
           <div class="row g-3">
@@ -959,7 +1593,7 @@ async function loadDoctors() {
       <!-- Nurses & Nursing Staff -->
       <div class="content-card">
         <div class="card-header-custom">
-          <h5><i class="bi bi-heart text-danger"></i> Nursing Staff (Table 8: Subtype)</h5>
+          <h5><i class="bi bi-heart text-danger"></i> Registered Nursing & Care Staff</h5>
         </div>
         <div class="table-responsive">
           <table class="table table-custom">
@@ -1030,7 +1664,7 @@ async function viewDoctorSchedules(doctorId) {
 }
 
 // -------------------------------------------------------------
-// VIEW 7: DEPARTMENTS (MODULE B)
+// VIEW 7: CLINICAL & OPERATIONAL DEPARTMENTS
 // -------------------------------------------------------------
 async function loadDepartments() {
   const res = await fetchAPI('/departments');
@@ -1070,7 +1704,7 @@ async function loadDepartments() {
 }
 
 // -------------------------------------------------------------
-// VIEW 8: LABORATORY SERVICES (MODULE E)
+// VIEW 8: PATHOLOGY & LABORATORY SERVICES
 // -------------------------------------------------------------
 async function loadLaboratory() {
   const [ordersRes, testsRes] = await Promise.all([
@@ -1205,7 +1839,7 @@ async function handleLabReportSubmit(e) {
 }
 
 // -------------------------------------------------------------
-// VIEW 9: PHARMACY & INVENTORY (MODULE F)
+// VIEW 9: PHARMACEUTICAL DISPENSARY & INVENTORY
 // -------------------------------------------------------------
 async function loadPharmacy() {
   const [medsRes, batchesRes, suppRes] = await Promise.all([
@@ -1269,7 +1903,7 @@ async function loadPharmacy() {
       <!-- Batches & Expiry Tracker -->
       <div class="content-card">
         <div class="card-header-custom">
-          <h5><i class="bi bi-clock-history text-warning"></i> Medicine Batches & Expiration Surveillance (Table 27)</h5>
+          <h5><i class="bi bi-clock-history text-warning"></i> Medicine Batches & Expiration Surveillance</h5>
         </div>
         <div class="table-responsive">
           <table class="table table-custom">
@@ -1311,11 +1945,15 @@ async function loadPharmacy() {
 }
 
 // -------------------------------------------------------------
-// VIEW 10: BILLING, PAYMENTS & INSURANCE (MODULE G)
+// VIEW 10: BILLING, PATIENT INVOICES & CLAIMS
 // -------------------------------------------------------------
 async function loadBilling() {
+  let billsEndpoint = '/billing/bills';
+  if (currentUser && currentUser.role === 'Patient' && currentUser.patientId) {
+    billsEndpoint += `?patientId=${currentUser.patientId}`;
+  }
   const [billsRes, claimsRes] = await Promise.all([
-    fetchAPI('/billing/bills'),
+    fetchAPI(billsEndpoint),
     fetchAPI('/billing/claims')
   ]);
 
@@ -1383,7 +2021,7 @@ async function loadBilling() {
       <!-- Insurance Claims -->
       <div class="content-card">
         <div class="card-header-custom">
-          <h5><i class="bi bi-shield-check text-success"></i> Health Insurance Claims (Table 32)</h5>
+          <h5><i class="bi bi-shield-check text-success"></i> Health Insurance Claims & TPA Approvals</h5>
         </div>
         <div class="table-responsive">
           <table class="table table-custom">
@@ -1478,7 +2116,7 @@ async function viewBillDetails(billId) {
         </div>
       </div>
 
-      <h6 class="fw-bold text-secondary">Invoice Line Items (Table 29: Bill_Item)</h6>
+      <h6 class="fw-bold text-secondary">Itemized Services & Charges</h6>
       <div class="table-responsive mb-4">
         <table class="table table-bordered">
           <thead class="table-light">
@@ -1521,7 +2159,7 @@ async function viewBillDetails(billId) {
       </div>
 
       ${b.payments && b.payments.length > 0 ? `
-        <h6 class="fw-bold text-secondary">Payment Receipts (Table 30: Payment)</h6>
+        <h6 class="fw-bold text-secondary">Recorded Transaction Receipts</h6>
         <ul class="list-group list-group-flush mb-3">
           ${b.payments.map(pay => `
             <li class="list-group-item d-flex justify-content-between align-items-center px-0">
@@ -1545,7 +2183,7 @@ async function viewBillDetails(billId) {
 }
 
 // -------------------------------------------------------------
-// VIEW 11: USERS & AUDIT TRAIL (MODULE H)
+// VIEW 11: ACCESS CONTROL & AUDIT LOGS
 // -------------------------------------------------------------
 async function loadAudit() {
   const [logsRes, usersRes] = await Promise.all([
@@ -1562,7 +2200,7 @@ async function loadAudit() {
       <!-- Users Table -->
       <div class="content-card mb-4">
         <div class="card-header-custom">
-          <h5><i class="bi bi-people text-primary"></i> System User Accounts (Table 33)</h5>
+          <h5><i class="bi bi-people text-primary"></i> Authorized Hospital User Accounts</h5>
         </div>
         <div class="table-responsive">
           <table class="table table-custom">
@@ -1597,7 +2235,7 @@ async function loadAudit() {
       <!-- Audit Logs Table -->
       <div class="content-card">
         <div class="card-header-custom">
-          <h5><i class="bi bi-shield-lock text-danger"></i> Immutable Database Audit Logs (Table 34)</h5>
+          <h5><i class="bi bi-shield-lock text-danger"></i> Compliance & Security Audit Logs</h5>
         </div>
         <div class="table-responsive">
           <table class="table table-custom">
@@ -1688,6 +2326,13 @@ function openAppointmentModal() {
   const patientSelect = document.getElementById('appt-patient');
   patientSelect.innerHTML = patientsCache.map(p => `<option value="${p.Patient_ID}">${p.First_Name} ${p.Last_Name} (${p.Phone})</option>`).join('');
 
+  if (currentUser && currentUser.role === 'Patient' && currentUser.patientId) {
+    patientSelect.value = currentUser.patientId;
+    patientSelect.disabled = true;
+  } else {
+    patientSelect.disabled = false;
+  }
+
   const doctorSelect = document.getElementById('appt-doctor');
   doctorSelect.innerHTML = doctorsCache.map(d => `<option value="${d.Doctor_ID}">Dr. ${d.First_Name} ${d.Last_Name} (${d.Specialization})</option>`).join('');
 
@@ -1701,8 +2346,13 @@ function openAppointmentModal() {
 
 async function handleAppointmentSubmit(e) {
   e.preventDefault();
+  const patientSelect = document.getElementById('appt-patient');
+  const patientIdVal = (currentUser && currentUser.role === 'Patient' && currentUser.patientId)
+    ? currentUser.patientId
+    : patientSelect.value;
+
   const payload = {
-    patientId: document.getElementById('appt-patient').value,
+    patientId: patientIdVal,
     doctorId: document.getElementById('appt-doctor').value,
     appointmentDate: document.getElementById('appt-date').value,
     appointmentTime: document.getElementById('appt-time').value,

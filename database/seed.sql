@@ -390,16 +390,18 @@ INSERT INTO Insurance_Claim (Claim_ID, Insurance_ID, Bill_ID, Claim_Date, Claime
 -- ----------------------------------------------------------------------------
 -- Standard password for all seed accounts: Admin@123
 INSERT INTO User_Account (User_ID, Username, Password_Hash, Role, Staff_ID, Patient_ID, Status, Last_Login) VALUES
-(1, 'admin', '$2b$10$QwYhWFbv4lucXvcjtFgAJOw/4vhLpbkO0YAuS95OwRWG7J/QuvsjG', 'Admin', 12, NULL, 'Active', '2026-11-02 08:30:00'),
-(2, 'dr.vikram', '$2b$10$QwYhWFbv4lucXvcjtFgAJOw/4vhLpbkO0YAuS95OwRWG7J/QuvsjG', 'Doctor', 1, NULL, 'Active', '2026-11-02 09:00:00'),
-(3, 'dr.meera', '$2b$10$QwYhWFbv4lucXvcjtFgAJOw/4vhLpbkO0YAuS95OwRWG7J/QuvsjG', 'Doctor', 2, NULL, 'Active', '2026-11-01 14:15:00'),
-(4, 'dr.rajesh', '$2b$10$QwYhWFbv4lucXvcjtFgAJOw/4vhLpbkO0YAuS95OwRWG7J/QuvsjG', 'Doctor', 3, NULL, 'Active', '2026-11-01 16:30:00'),
-(5, 'nurse.ananya', '$2b$10$QwYhWFbv4lucXvcjtFgAJOw/4vhLpbkO0YAuS95OwRWG7J/QuvsjG', 'Nurse', 6, NULL, 'Active', '2026-11-02 07:00:00'),
-(6, 'pharm.suresh', '$2b$10$QwYhWFbv4lucXvcjtFgAJOw/4vhLpbkO0YAuS95OwRWG7J/QuvsjG', 'Pharmacist', 9, NULL, 'Active', '2026-11-02 08:45:00'),
-(7, 'lab.divya', '$2b$10$QwYhWFbv4lucXvcjtFgAJOw/4vhLpbkO0YAuS95OwRWG7J/QuvsjG', 'Admin', 10, NULL, 'Active', '2026-11-02 09:15:00'),
-(8, 'recep.kiran', '$2b$10$QwYhWFbv4lucXvcjtFgAJOw/4vhLpbkO0YAuS95OwRWG7J/QuvsjG', 'Receptionist', 11, NULL, 'Active', '2026-11-02 08:00:00'),
-(9, 'acct.sunil', '$2b$10$QwYhWFbv4lucXvcjtFgAJOw/4vhLpbkO0YAuS95OwRWG7J/QuvsjG', 'Accountant', 13, NULL, 'Active', '2026-11-02 08:15:00'),
-(10, 'patient.rohan', '$2b$10$QwYhWFbv4lucXvcjtFgAJOw/4vhLpbkO0YAuS95OwRWG7J/QuvsjG', 'Patient', NULL, 1, 'Active', '2026-10-31 10:00:00');
+(1, 'admin', '$2b$10$334qRQB7/D03zQPw9.EcHeB9GoNKRA1Nq9EL/SNQSTQKFzNIYnJA6', 'Admin', 12, NULL, 'Active', '2026-11-02 08:30:00'),
+(2, 'dr.vikram', '$2b$10$334qRQB7/D03zQPw9.EcHeB9GoNKRA1Nq9EL/SNQSTQKFzNIYnJA6', 'Doctor', 1, NULL, 'Active', '2026-11-02 09:00:00'),
+(3, 'dr.meera', '$2b$10$334qRQB7/D03zQPw9.EcHeB9GoNKRA1Nq9EL/SNQSTQKFzNIYnJA6', 'Doctor', 2, NULL, 'Active', '2026-11-01 14:15:00'),
+(4, 'dr.rajesh', '$2b$10$334qRQB7/D03zQPw9.EcHeB9GoNKRA1Nq9EL/SNQSTQKFzNIYnJA6', 'Doctor', 3, NULL, 'Active', '2026-11-01 16:30:00'),
+(5, 'nurse.ananya', '$2b$10$334qRQB7/D03zQPw9.EcHeB9GoNKRA1Nq9EL/SNQSTQKFzNIYnJA6', 'Nurse', 6, NULL, 'Active', '2026-11-02 07:00:00'),
+(6, 'pharm.suresh', '$2b$10$334qRQB7/D03zQPw9.EcHeB9GoNKRA1Nq9EL/SNQSTQKFzNIYnJA6', 'Pharmacist', 9, NULL, 'Active', '2026-11-02 08:45:00'),
+(7, 'lab.divya', '$2b$10$334qRQB7/D03zQPw9.EcHeB9GoNKRA1Nq9EL/SNQSTQKFzNIYnJA6', 'Admin', 10, NULL, 'Active', '2026-11-02 09:15:00'),
+(8, 'recep.kiran', '$2b$10$334qRQB7/D03zQPw9.EcHeB9GoNKRA1Nq9EL/SNQSTQKFzNIYnJA6', 'Receptionist', 11, NULL, 'Active', '2026-11-02 08:00:00'),
+(9, 'acct.sunil', '$2b$10$334qRQB7/D03zQPw9.EcHeB9GoNKRA1Nq9EL/SNQSTQKFzNIYnJA6', 'Accountant', 13, NULL, 'Active', '2026-11-02 08:15:00'),
+(10, 'patient.rohan', '$2b$10$334qRQB7/D03zQPw9.EcHeB9GoNKRA1Nq9EL/SNQSTQKFzNIYnJA6', 'Patient', NULL, 1, 'Active', '2026-10-31 10:00:00'),
+(11, 'patient.ananya', '$2b$10$334qRQB7/D03zQPw9.EcHeB9GoNKRA1Nq9EL/SNQSTQKFzNIYnJA6', 'Patient', NULL, 2, 'Active', '2026-11-01 11:00:00'),
+(12, 'patient.farhan', '$2b$10$334qRQB7/D03zQPw9.EcHeB9GoNKRA1Nq9EL/SNQSTQKFzNIYnJA6', 'Patient', NULL, 3, 'Active', '2026-11-01 12:30:00');
 
 INSERT INTO Audit_Log (Log_ID, User_ID, Action, Entity_Name, Entity_ID, Old_Values, New_Values, IP_Address, Timestamp) VALUES
 (1, 1, 'USER_LOGIN', 'User_Account', 1, NULL, '{"status": "success", "username": "admin"}', '127.0.0.1', '2026-11-02 08:30:00'),
