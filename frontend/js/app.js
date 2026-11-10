@@ -58,7 +58,7 @@ function setupUserHeader() {
     if (currentUser.role === 'Patient') {
       btnTopbarRegister.style.display = 'none';
     } else if (currentUser.role === 'Doctor') {
-      btnTopbarRegister.innerHTML = '<i class="bi bi-journal-plus me-1"></i><span>New Clinical Rx</span>';
+      btnTopbarRegister.innerHTML = '<i class="bi bi-journal-plus me-1"></i><span>Add Medical Record</span>';
       btnTopbarRegister.onclick = openMedicalRecordModal;
       btnTopbarRegister.style.display = 'inline-flex';
     } else {
@@ -85,42 +85,42 @@ function renderRoleSidebar() {
           <span>My Health Overview</span>
         </a>
       </li>
-      <li class="menu-category">My Clinical Care</li>
+      <li class="menu-category">Doctor Visits & Care</li>
       <li class="menu-item">
         <a href="#appointments" class="menu-link" onclick="navigate('appointments')">
           <i class="bi bi-calendar-check-fill text-primary"></i>
-          <span>My Consultations</span>
+          <span>My Doctor Appointments</span>
         </a>
       </li>
       <li class="menu-item">
         <a href="#admissions" class="menu-link" onclick="navigate('admissions')">
           <i class="bi bi-hospital text-secondary"></i>
-          <span>My Room & Inpatient Stay</span>
+          <span>My Room & Bed</span>
         </a>
       </li>
       <li class="menu-item">
         <a href="#records" class="menu-link" onclick="navigate('records')">
           <i class="bi bi-journal-medical text-accent"></i>
-          <span>My Prescriptions (Rx)</span>
+          <span>My Medical Records & Prescriptions</span>
         </a>
       </li>
       <li class="menu-item">
         <a href="#laboratory" class="menu-link" onclick="navigate('laboratory')">
           <i class="bi bi-eyedropper text-info"></i>
-          <span>My Diagnostic Reports</span>
+          <span>My Lab Test Reports</span>
         </a>
       </li>
       <li class="menu-category">Hospital Directory & Billing</li>
       <li class="menu-item">
         <a href="#doctors" class="menu-link" onclick="navigate('doctors')">
           <i class="bi bi-person-badge-fill text-primary"></i>
-          <span>Specialist Doctors</span>
+          <span>Find a Doctor</span>
         </a>
       </li>
       <li class="menu-item">
         <a href="#billing" class="menu-link" onclick="navigate('billing')">
           <i class="bi bi-receipt-cutoff text-success"></i>
-          <span>My Invoices & Payments</span>
+          <span>My Bills & Receipts</span>
         </a>
       </li>
     `;
@@ -133,48 +133,48 @@ function renderRoleSidebar() {
           <span>Doctor Dashboard</span>
         </a>
       </li>
-      <li class="menu-category">Clinical Practice</li>
+      <li class="menu-category">Patient Care</li>
       <li class="menu-item">
         <a href="#appointments" class="menu-link" onclick="navigate('appointments')">
           <i class="bi bi-calendar-check-fill text-secondary"></i>
-          <span>Consultation Queue</span>
+          <span>Today's Appointments</span>
         </a>
       </li>
       <li class="menu-item">
         <a href="#admissions" class="menu-link" onclick="navigate('admissions')">
           <i class="bi bi-hospital-fill text-danger"></i>
-          <span>Inpatient Ward Rounds</span>
+          <span>Admitted Patients & Rooms</span>
         </a>
       </li>
       <li class="menu-item">
         <a href="#records" class="menu-link" onclick="navigate('records')">
           <i class="bi bi-journal-medical text-accent"></i>
-          <span>Medical Records & Rx</span>
+          <span>Medical Records & Prescriptions</span>
         </a>
       </li>
       <li class="menu-item">
         <a href="#patients" class="menu-link" onclick="navigate('patients')">
           <i class="bi bi-people-fill text-primary"></i>
-          <span>Patient Directory</span>
+          <span>Patients List</span>
         </a>
       </li>
-      <li class="menu-category">Diagnostics & Hospital</li>
+      <li class="menu-category">Hospital & Tests</li>
       <li class="menu-item">
         <a href="#laboratory" class="menu-link" onclick="navigate('laboratory')">
           <i class="bi bi-eyedropper text-info"></i>
-          <span>Laboratory Test Reports</span>
+          <span>Lab Test Reports</span>
         </a>
       </li>
       <li class="menu-item">
         <a href="#doctors" class="menu-link" onclick="navigate('doctors')">
           <i class="bi bi-person-badge-fill text-secondary"></i>
-          <span>Medical Staff & Schedule</span>
+          <span>Doctors & Staff Timings</span>
         </a>
       </li>
       <li class="menu-item">
         <a href="#departments" class="menu-link" onclick="navigate('departments')">
           <i class="bi bi-diagram-3-fill text-accent"></i>
-          <span>Clinical Departments</span>
+          <span>Hospital Departments</span>
         </a>
       </li>
     `;
@@ -203,32 +203,32 @@ function navigate(viewName) {
 
   const titles = {
     dashboard: currentUser && currentUser.role === 'Patient'
-      ? ['My Health Dashboard', 'Personal clinical records, appointments & inpatient stay overview']
+      ? ['My Health Dashboard', 'Overview of your appointments, admitted room, and prescriptions']
       : currentUser && currentUser.role === 'Doctor'
-      ? ['Doctor Clinical Workstation', 'Today\'s consultation queue, inpatient ward rounds & prescriptions']
-      : ['Executive Dashboard', 'Real-time hospital operations overview & KPIs'],
-    patients: ['Patient Management', 'Demographics, medical history, allergies & emergency contacts'],
+      ? ['Doctor Workstation', 'Today\'s patient appointments, admitted patients, and prescriptions']
+      : ['Hospital Dashboard', 'Summary of patients, doctor visits, hospital beds, and billing'],
+    patients: ['Patients List', 'Patient contact details, medical history, and allergies'],
     appointments: currentUser && currentUser.role === 'Patient'
-      ? ['My Consultations', 'Scheduled outpatient appointments & consultation history']
+      ? ['My Appointments', 'Your scheduled doctor appointments and visit status']
       : currentUser && currentUser.role === 'Doctor'
-      ? ['Doctor Consultation Queue', 'Today\'s patient appointments & consultation schedule']
-      : ['Appointment Scheduling', 'Doctor outpatient consultations & status tracking'],
+      ? ['Today\'s Appointments', 'Today\'s patient appointments and consultation timings']
+      : ['Doctor Appointments', 'Schedule and manage patient appointments with doctors'],
     admissions: currentUser && currentUser.role === 'Patient'
-      ? ['My Room & Inpatient Stay', 'Active room allocation, bed number & admission records']
-      : ['Inpatient Admissions & Bed Allocation', 'Live ward occupancy, rooms, beds & discharge management'],
+      ? ['My Room & Hospital Stay', 'Your admitted room number, bed, and admission details']
+      : ['Rooms & Beds', 'Current admitted patients, room status, and bed availability'],
     records: currentUser && currentUser.role === 'Patient'
-      ? ['My Prescriptions & Medical Records', 'Prescribed medications, dosage instructions & diagnosis records']
-      : ['Medical Records & Prescriptions', 'Clinical encounters, ICD-10 diagnoses & multi-item Rx'],
-    doctors: ['Doctors & Medical Staff', 'Physicians, specialists, nurses, and weekly consultation schedules'],
-    departments: ['Clinical Departments', 'Specialized medical divisions, heads of department, and facilities'],
+      ? ['My Medical Records & Prescriptions', 'Doctor visit notes, health diagnoses, and prescribed medicines']
+      : ['Medical Records & Prescriptions', 'Doctor visit notes, health diagnoses, and prescribed medicines'],
+    doctors: ['Doctors & Hospital Staff', 'List of doctors, specialists, nurses, and their clinic timings'],
+    departments: ['Hospital Departments', 'Medical departments, department heads, and facilities'],
     laboratory: currentUser && currentUser.role === 'Patient'
-      ? ['My Diagnostic Reports', 'Laboratory test findings, pathology reports & results']
-      : ['Laboratory Services', 'Diagnostic test catalog, sample orders, and pathologist reports'],
-    pharmacy: ['Pharmacy & Medicine Inventory', 'Pharmaceutical stocks, batch expiry tracking, and purchase orders'],
+      ? ['My Lab Test Reports', 'Your blood tests, scans, and diagnostic lab reports']
+      : ['Lab Tests & Reports', 'Available medical tests, test requests, and patient results'],
+    pharmacy: ['Pharmacy & Medicines', 'Available medicine stock, batch numbers, and expiry dates'],
     billing: currentUser && currentUser.role === 'Patient'
-      ? ['My Invoices & Payments', 'Consultation fees, hospital room charges & payment receipts']
-      : ['Billing, Payments & Insurance', 'Inpatient/OPD invoices, payment collections, and insurance claims'],
-    audit: ['Security & Audit Trail', 'User accounts, role-based access control, and immutable change logs']
+      ? ['My Bills & Receipts', 'Doctor consultation fees, room charges, and payment receipts']
+      : ['Billing & Payments', 'Patient hospital bills, payment receipts, and insurance claims'],
+    audit: ['User Accounts & Security', 'Staff login accounts, roles, and system security activity logs']
   };
 
   const [title, subtitle] = titles[viewName] || ['Hospital Management', 'Clinical Enterprise'];
@@ -863,12 +863,12 @@ async function loadDoctorDashboard() {
           <div class="stat-card">
             <div class="d-flex align-items-center justify-content-between">
               <div>
-                <span class="stat-label">Clinical Encounters</span>
+                <span class="stat-label">Doctor Visits & Notes</span>
                 <div class="stat-value text-accent">${records.length} Completed</div>
               </div>
               <div class="stat-icon accent"><i class="bi bi-journal-check"></i></div>
             </div>
-            <div class="mt-2 text-muted small">Diagnoses & Prescriptions Written</div>
+            <div class="mt-2 text-muted small">Prescriptions & Diagnoses Given</div>
           </div>
         </div>
 
@@ -881,19 +881,19 @@ async function loadDoctorDashboard() {
               </div>
               <div class="stat-icon success"><i class="bi bi-pie-chart-fill"></i></div>
             </div>
-            <div class="mt-2 text-muted small">Current Inpatient Ward Occupancy</div>
+            <div class="mt-2 text-muted small">Current Admitted Patients & Beds</div>
           </div>
         </div>
       </div>
 
-      <!-- Tables: Consultation Queue & Inpatient Ward -->
+      <!-- Tables: Today's Appointments & Admitted Patients -->
       <div class="row g-4">
         <!-- Consultation Queue -->
         <div class="col-lg-6">
           <div class="content-card h-100">
             <div class="card-header-custom">
-              <h5><i class="bi bi-calendar-check text-primary me-2"></i> My Consultation Queue</h5>
-              <button class="btn btn-sm btn-outline-primary" onclick="navigate('appointments')">Full Queue</button>
+              <h5><i class="bi bi-calendar-check text-primary me-2"></i> Today's Patient Appointments</h5>
+              <button class="btn btn-sm btn-outline-primary" onclick="navigate('appointments')">All Appointments</button>
             </div>
             <div class="table-responsive">
               <table class="table table-custom">
@@ -934,8 +934,8 @@ async function loadDoctorDashboard() {
         <div class="col-lg-6">
           <div class="content-card h-100">
             <div class="card-header-custom">
-              <h5><i class="bi bi-hospital text-danger me-2"></i> Inpatient Ward Admissions</h5>
-              <button class="btn btn-sm btn-outline-primary" onclick="navigate('admissions')">Bed Board</button>
+              <h5><i class="bi bi-hospital text-danger me-2"></i> Admitted Patients & Rooms</h5>
+              <button class="btn btn-sm btn-outline-primary" onclick="navigate('admissions')">View Beds</button>
             </div>
             <div class="table-responsive">
               <table class="table table-custom">
@@ -979,7 +979,7 @@ async function loadPatients() {
     <div class="view-section">
       <div class="content-card">
         <div class="card-header-custom flex-wrap gap-2">
-          <h5><i class="bi bi-people text-primary"></i> Patient Directory (${patients.length} Registered)</h5>
+          <h5><i class="bi bi-people text-primary"></i> Patients List (${patients.length} Registered)</h5>
           <div class="d-flex gap-2">
             <input type="text" id="patient-search-input" class="form-control form-control-sm" placeholder="Search by name, phone..." oninput="filterPatientsTable(this.value)" style="width: 240px;">
             <button class="btn btn-sm btn-primary" onclick="openPatientModal()"><i class="bi bi-person-plus me-1"></i> Register Patient</button>
@@ -1024,8 +1024,8 @@ async function loadPatients() {
                   <td><small class="text-muted">${formatDate(p.Registration_Date)}</small></td>
                   <td><span class="badge-custom ${p.Status === 'Active' ? 'badge-success-soft' : 'badge-neutral-soft'}">${p.Status}</span></td>
                   <td class="text-end">
-                    <button class="btn btn-sm btn-outline-primary" onclick="viewPatient360(${p.Patient_ID})" title="Clinical 360° Profile">
-                      <i class="bi bi-eye"></i> View 360°
+                    <button class="btn btn-sm btn-outline-primary" onclick="viewPatient360(${p.Patient_ID})" title="View Patient Medical Profile">
+                      <i class="bi bi-eye"></i> View History
                     </button>
                   </td>
                 </tr>
@@ -1401,7 +1401,7 @@ async function dischargePatientAction(admissionId) {
 }
 
 // -------------------------------------------------------------
-// VIEW 5: ELECTRONIC HEALTH RECORDS & CLINICAL ENCOUNTERS
+// VIEW 5: MEDICAL RECORDS & PRESCRIPTIONS
 // -------------------------------------------------------------
 async function loadRecords() {
   let endpoint = '/medical-records';
@@ -1419,8 +1419,8 @@ async function loadRecords() {
     <div class="view-section">
       <div class="content-card">
         <div class="card-header-custom flex-wrap gap-2">
-          <h5><i class="bi bi-journal-medical text-primary"></i> Clinical Encounters & Prescriptions (${records.length})</h5>
-          <button class="btn btn-sm btn-primary" onclick="openMedicalRecordModal()"><i class="bi bi-journal-plus me-1"></i> Write Encounter Record</button>
+          <h5><i class="bi bi-journal-medical text-primary"></i> Medical Records & Prescriptions (${records.length})</h5>
+          <button class="btn btn-sm btn-primary" onclick="openMedicalRecordModal()"><i class="bi bi-journal-plus me-1"></i> Add Doctor Visit Record</button>
         </div>
         <div class="table-responsive">
           <table class="table table-custom">
@@ -1429,10 +1429,10 @@ async function loadRecords() {
                 <th>Record #</th>
                 <th>Patient Details</th>
                 <th>Attending Doctor</th>
-                <th>Encounter Date</th>
-                <th>Symptoms & Clinical Findings</th>
-                <th>Primary Diagnosis (ICD-10)</th>
-                <th>Follow-up</th>
+                <th>Visit Date</th>
+                <th>Symptoms & Findings</th>
+                <th>Diagnosis (Condition)</th>
+                <th>Next Follow-up</th>
                 <th class="text-end">Actions</th>
               </tr>
             </thead>
@@ -1457,7 +1457,7 @@ async function loadRecords() {
                   <td>${r.Follow_Up_Date ? formatDate(r.Follow_Up_Date) : '<span class="text-muted">-</span>'}</td>
                   <td class="text-end">
                     <button class="btn btn-sm btn-outline-primary" onclick="viewRecordDetails(${r.Record_ID})">
-                      <i class="bi bi-file-earmark-medical"></i> View Rx
+                      <i class="bi bi-file-earmark-medical"></i> View Prescription
                     </button>
                   </td>
                 </tr>
@@ -1482,8 +1482,8 @@ async function viewRecordDetails(recordId) {
     <div class="p-3 mb-3 bg-light rounded-3">
       <div class="d-flex justify-content-between">
         <div>
-          <h5 class="fw-bold text-dark mb-1">Clinical Encounter Record #${r.Record_ID}</h5>
-          <div class="text-muted small">Date: ${formatDate(r.Visit_Date)} | Patient: <strong>${r.Patient_Name}</strong> | Doctor: <strong>${r.Doctor_Name} (${r.Specialization})</strong></div>
+          <h5 class="fw-bold text-dark mb-1">Doctor Visit & Medical Record #${r.Record_ID}</h5>
+          <div class="text-muted small">Visit Date: ${formatDate(r.Visit_Date)} | Patient: <strong>${r.Patient_Name}</strong> | Doctor: <strong>${r.Doctor_Name} (${r.Specialization})</strong></div>
         </div>
       </div>
     </div>
@@ -1491,25 +1491,25 @@ async function viewRecordDetails(recordId) {
     <div class="row g-3 mb-4">
       <div class="col-md-6">
         <div class="p-3 border rounded-3">
-          <h6 class="fw-bold text-secondary">Chief Symptoms & Presentation</h6>
+          <h6 class="fw-bold text-secondary">Patient Symptoms & Complaints</h6>
           <p class="mb-0">${r.Symptoms}</p>
         </div>
       </div>
       <div class="col-md-6">
         <div class="p-3 border rounded-3">
-          <h6 class="fw-bold text-secondary">Physical Examination</h6>
+          <h6 class="fw-bold text-secondary">Doctor Examination (BP, Pulse, etc.)</h6>
           <p class="mb-0">${r.Physical_Examination || 'None recorded'}</p>
         </div>
       </div>
       <div class="col-12">
         <div class="p-3 border rounded-3">
-          <h6 class="fw-bold text-secondary">Treatment Notes & Plan</h6>
+          <h6 class="fw-bold text-secondary">Doctor Treatment Advice</h6>
           <p class="mb-0">${r.Treatment_Notes || 'None recorded'}</p>
         </div>
       </div>
     </div>
 
-    <h6 class="fw-bold text-primary mb-2"><i class="bi bi-capsule me-1"></i> Prescribed Medications (Rx)</h6>
+    <h6 class="fw-bold text-primary mb-2"><i class="bi bi-capsule me-1"></i> Prescribed Medicines</h6>
     ${r.prescriptions.length === 0 ? '<p class="text-muted">No prescriptions written for this visit.</p>' : `
       <div class="table-responsive">
         <table class="table table-bordered table-sm">
@@ -1903,7 +1903,7 @@ async function loadPharmacy() {
       <!-- Batches & Expiry Tracker -->
       <div class="content-card">
         <div class="card-header-custom">
-          <h5><i class="bi bi-clock-history text-warning"></i> Medicine Batches & Expiration Surveillance</h5>
+          <h5><i class="bi bi-clock-history text-warning"></i> Medicine Batches & Expiry Dates</h5>
         </div>
         <div class="table-responsive">
           <table class="table table-custom">
@@ -2461,11 +2461,11 @@ async function handleMedicalRecordSubmit(e) {
   });
 
   if (res.success) {
-    showToast('Clinical encounter & prescription recorded!', 'success');
+    showToast('Medical record & prescription saved successfully!', 'success');
     bootstrap.Modal.getInstance(document.getElementById('modal-medical-record')).hide();
     navigate('records');
   } else {
-    showToast(res.message || 'Error recording encounter', 'danger');
+    showToast(res.message || 'Error saving medical record', 'danger');
   }
 }
 

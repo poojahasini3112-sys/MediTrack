@@ -40,11 +40,11 @@
         </a>
       </li>
 
-      <li class="menu-category">Clinical Management</li>
+      <li class="menu-category">Patient Care</li>
       <li class="menu-item">
         <a href="#patients" class="menu-link" onclick="navigate('patients')">
           <i class="bi bi-people-fill"></i>
-          <span>Patient Directory</span>
+          <span>Patients List</span>
         </a>
       </li>
       <li class="menu-item">
@@ -56,13 +56,13 @@
       <li class="menu-item">
         <a href="#admissions" class="menu-link" onclick="navigate('admissions')">
           <i class="bi bi-heart-pulse-fill"></i>
-          <span>Inpatient Wards & Beds</span>
+          <span>Rooms & Beds</span>
         </a>
       </li>
       <li class="menu-item">
         <a href="#records" class="menu-link" onclick="navigate('records')">
           <i class="bi bi-journal-medical"></i>
-          <span>Electronic Health Records</span>
+          <span>Medical Records & Prescriptions</span>
         </a>
       </li>
 
@@ -82,17 +82,17 @@
       <li class="menu-item">
         <a href="#laboratory" class="menu-link" onclick="navigate('laboratory')">
           <i class="bi bi-eyedropper"></i>
-          <span>Laboratory & Reports</span>
+          <span>Lab Tests & Reports</span>
         </a>
       </li>
       <li class="menu-item">
         <a href="#pharmacy" class="menu-link" onclick="navigate('pharmacy')">
           <i class="bi bi-capsule"></i>
-          <span>Pharmacy & Stocks</span>
+          <span>Pharmacy & Medicines</span>
         </a>
       </li>
 
-      <li class="menu-category">Finance & Security</li>
+      <li class="menu-category">Billing & Accounts</li>
       <li class="menu-item">
         <a href="#billing" class="menu-link" onclick="navigate('billing')">
           <i class="bi bi-receipt-cutoff"></i>
@@ -102,7 +102,7 @@
       <li class="menu-item">
         <a href="#audit" class="menu-link" onclick="navigate('audit')">
           <i class="bi bi-shield-check"></i>
-          <span>System Security & Access</span>
+          <span>User Accounts & Security</span>
         </a>
       </li>
     </ul>
@@ -315,7 +315,7 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content border-0 shadow-lg">
       <div class="modal-header bg-light">
-        <h5 class="modal-title fw-bold text-primary"><i class="bi bi-hospital me-2"></i> Inpatient Admission & Bed Allocation</h5>
+        <h5 class="modal-title fw-bold text-primary"><i class="bi bi-hospital me-2"></i> Admit Patient & Assign Bed</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <form id="form-admission" onsubmit="handleAdmissionSubmit(event)">
@@ -359,7 +359,7 @@
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content border-0 shadow-lg">
       <div class="modal-header bg-light">
-        <h5 class="modal-title fw-bold text-primary"><i class="bi bi-journal-medical me-2"></i> Clinical Encounter & Prescription</h5>
+        <h5 class="modal-title fw-bold text-primary"><i class="bi bi-journal-medical me-2"></i> Doctor Visit & Prescription</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <form id="form-medical-record" onsubmit="handleMedicalRecordSubmit(event)">
@@ -375,31 +375,31 @@
             </div>
           </div>
           <div class="mb-3">
-            <label class="form-label small fw-semibold">Symptoms & Clinical Presentation *</label>
-            <textarea id="mr-symptoms" class="form-control" rows="2" required placeholder="Chief complaint, duration, onset..."></textarea>
+            <label class="form-label small fw-semibold">Symptoms & Health Complaints *</label>
+            <textarea id="mr-symptoms" class="form-control" rows="2" required placeholder="Describe chief complaint, fever, pain, duration..."></textarea>
           </div>
           <div class="row g-3 mb-3">
             <div class="col-md-6">
-              <label class="form-label small fw-semibold">Physical Examination</label>
-              <textarea id="mr-exam" class="form-control" rows="2" placeholder="BP, pulse, heart sounds, chest..."></textarea>
+              <label class="form-label small fw-semibold">Doctor Examination (BP, Pulse, etc.)</label>
+              <textarea id="mr-exam" class="form-control" rows="2" placeholder="Blood pressure, heart rate, temperature..."></textarea>
             </div>
             <div class="col-md-6">
-              <label class="form-label small fw-semibold">Treatment Notes</label>
-              <textarea id="mr-notes" class="form-control" rows="2" placeholder="Clinical assessment, advised therapy..."></textarea>
+              <label class="form-label small fw-semibold">Doctor Treatment Advice</label>
+              <textarea id="mr-notes" class="form-control" rows="2" placeholder="Doctor advice, recommended diet, rest..."></textarea>
             </div>
           </div>
           <div class="row g-3 mb-4">
             <div class="col-md-6">
-              <label class="form-label small fw-semibold">Primary Clinical Diagnosis (ICD-10) *</label>
+              <label class="form-label small fw-semibold">Diagnosis (Health Condition / Disease) *</label>
               <select id="mr-diagnosis" class="form-select" required></select>
             </div>
             <div class="col-md-6">
-              <label class="form-label small fw-semibold">Follow-up Date</label>
+              <label class="form-label small fw-semibold">Next Follow-up Date</label>
               <input type="date" id="mr-followup" class="form-control">
             </div>
           </div>
 
-          <h6 class="fw-bold text-secondary mb-2"><i class="bi bi-capsule me-1"></i> Prescribed Medications (Rx)</h6>
+          <h6 class="fw-bold text-secondary mb-2"><i class="bi bi-capsule me-1"></i> Prescribed Medicines</h6>
           <div class="row g-2 mb-2">
             <div class="col-md-4">
               <label class="form-label small fw-semibold">Medicine</label>
@@ -436,7 +436,7 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content border-0 shadow-lg">
       <div class="modal-header bg-light">
-        <h5 class="modal-title fw-bold text-primary"><i class="bi bi-eyedropper me-2"></i> Order Laboratory Investigation</h5>
+        <h5 class="modal-title fw-bold text-primary"><i class="bi bi-eyedropper me-2"></i> Order Lab Test</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <form id="form-lab-order" onsubmit="handleLabOrderSubmit(event)">
@@ -476,7 +476,7 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content border-0 shadow-lg">
       <div class="modal-header bg-light">
-        <h5 class="modal-title fw-bold text-primary"><i class="bi bi-file-earmark-medical me-2"></i> Enter Laboratory Findings</h5>
+        <h5 class="modal-title fw-bold text-primary"><i class="bi bi-file-earmark-medical me-2"></i> Enter Lab Test Results</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <form id="form-lab-report" onsubmit="handleLabReportSubmit(event)">
@@ -519,7 +519,7 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content border-0 shadow-lg">
       <div class="modal-header bg-light">
-        <h5 class="modal-title fw-bold text-primary"><i class="bi bi-credit-card me-2"></i> Process Bill Payment</h5>
+        <h5 class="modal-title fw-bold text-primary"><i class="bi bi-credit-card me-2"></i> Pay Hospital Bill</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <form id="form-payment" onsubmit="handlePaymentSubmit(event)">
@@ -560,7 +560,7 @@
   <div class="modal-dialog modal-xl modal-dialog-centered">
     <div class="modal-content border-0 shadow-lg">
       <div class="modal-header bg-light">
-        <h5 class="modal-title fw-bold text-dark"><i class="bi bi-person-bounding-box text-primary me-2"></i> Patient Clinical 360° Profile</h5>
+        <h5 class="modal-title fw-bold text-dark"><i class="bi bi-person-bounding-box text-primary me-2"></i> Patient Medical History & Profile</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body p-4" id="patient-details-body">

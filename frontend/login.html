@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MediTrack Health System - Clinical & Administrative Portal</title>
+  <title>MediTrack Health System - Hospital Portal</title>
   <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -116,13 +116,13 @@
       </div>
       <div>
         <h6 class="mb-0 text-white fw-bold tracking-tight">MediTrack Health System</h6>
-        <small class="text-white-50" style="font-size: 0.72rem;">Clinical Information System &bull; Hospital Information Network</small>
+        <small class="text-white-50" style="font-size: 0.72rem;">Hospital Management System &bull; Doctors, Patients & Staff Portal</small>
       </div>
     </div>
     <div class="d-none d-md-flex align-items-center gap-3 text-white-50 small">
       <div><i class="bi bi-shield-check text-success me-1"></i> JCI & NABH Accredited</div>
       <div>&bull;</div>
-      <div><i class="bi bi-telephone-fill text-primary me-1"></i> Technical Helpdesk: Ext. 4040</div>
+      <div><i class="bi bi-telephone-fill text-primary me-1"></i> Hospital Helpdesk: Ext. 4040</div>
     </div>
   </div>
 </header>
@@ -132,25 +132,25 @@
   <div class="login-card">
     <!-- Header -->
     <div class="mb-4 text-center">
-      <h4 class="fw-bold text-dark mb-1">Clinical Enterprise Sign-In</h4>
-      <p class="text-muted small mb-0">Select your authorized department to access the system</p>
+      <h4 class="fw-bold text-dark mb-1">Hospital Portal Sign-In</h4>
+      <p class="text-muted small mb-0">Choose your login type to sign in</p>
     </div>
 
     <!-- Department / Role Selector -->
     <div class="row g-2 mb-3" id="role-selector">
       <div class="col-4">
         <button type="button" class="role-tab-btn w-100 active" id="btn-tab-admin" onclick="selectRole('admin')">
-          <i class="bi bi-shield-lock"></i> Administration
+          <i class="bi bi-shield-lock"></i> Hospital Admin
         </button>
       </div>
       <div class="col-4">
         <button type="button" class="role-tab-btn w-100" id="btn-tab-doctor" onclick="selectRole('doctor')">
-          <i class="bi bi-stethoscope"></i> Medical Staff
+          <i class="bi bi-stethoscope"></i> Doctors & Staff
         </button>
       </div>
       <div class="col-4">
         <button type="button" class="role-tab-btn w-100" id="btn-tab-patient" onclick="selectRole('patient')">
-          <i class="bi bi-person"></i> Patient Portal
+          <i class="bi bi-person"></i> Patients
         </button>
       </div>
     </div>
@@ -161,10 +161,10 @@
         <span class="badge text-white" id="role-badge" style="background: #0284c7;">
           Hospital Administration
         </span>
-        <span class="badge bg-light text-secondary border" id="role-scope-badge">Enterprise Access</span>
+        <span class="badge bg-light text-secondary border" id="role-scope-badge">Full Access</span>
       </div>
       <div class="small text-muted mt-1" id="role-desc">
-        Complete operational authority across clinical departments, inpatient bed allocation, staff rosters, and financial records.
+        Hospital management access for managing patient records, doctors, rooms and beds, pharmacy, and billing.
       </div>
     </div>
 
@@ -218,9 +218,9 @@
     <div class="d-flex align-items-center gap-3">
       <span><i class="bi bi-shield-lock me-1"></i> HIPAA Compliant Infrastructure</span>
       <span>&bull;</span>
-      <span>ISO 27001 Certified EHR</span>
+      <span>NABH & ISO 9001 Certified Hospital</span>
       <span>&bull;</span>
-      <span>Emergency Hotline: 1800-425-9999</span>
+      <span>Emergency Helpline: 1800-425-9999</span>
     </div>
   </div>
 </footer>
@@ -230,10 +230,10 @@
   const ROLES = {
     admin: {
       title: 'Hospital Administration',
-      scope: 'Enterprise Access',
+      scope: 'Full Access',
       badgeBg: '#0284c7',
       borderCol: '#0284c7',
-      desc: 'Complete operational authority across clinical departments, inpatient bed allocation, staff rosters, and financial records.',
+      desc: 'Hospital management access for managing patient records, doctors, rooms and beds, pharmacy, and billing.',
       userLabel: 'Administrator User ID',
       btnText: 'Sign In as Administrator',
       defaultUser: 'admin',
@@ -247,13 +247,13 @@
       ]
     },
     doctor: {
-      title: 'Medical Staff & Physicians',
-      scope: 'Clinical Workstation',
+      title: 'Doctors & Hospital Staff',
+      scope: 'Doctor Workstation',
       badgeBg: '#0d9488',
       borderCol: '#0d9488',
-      desc: 'Authorized physician access for outpatient consultation queues, diagnosis recording, clinical orders, and electronic prescriptions.',
-      userLabel: 'Physician Username / Staff ID',
-      btnText: 'Sign In as Physician',
+      desc: 'Doctor access to check today\'s patient appointments, write medical notes, make diagnoses, and prescribe medicines.',
+      userLabel: 'Doctor Username / Staff ID',
+      btnText: 'Sign In as Doctor',
       defaultUser: 'dr.vikram',
       defaultPass: 'Admin@123',
       pills: [
@@ -264,12 +264,12 @@
       ]
     },
     patient: {
-      title: 'Patient Care Portal',
+      title: 'Patient Health Portal',
       scope: 'Personal Records',
       badgeBg: '#4f46e5',
       borderCol: '#4f46e5',
-      desc: 'Secure access for registered patients to review scheduled consultations, room admissions, prescription history, and billing statements.',
-      userLabel: 'Patient UHID / Username',
+      desc: 'Patient portal to check your doctor appointments, hospital room, medical records, prescriptions, and lab test reports.',
+      userLabel: 'Patient Username / ID',
       btnText: 'Sign In to Patient Portal',
       defaultUser: 'patient.rohan',
       defaultPass: 'Admin@123',
