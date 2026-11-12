@@ -92,6 +92,10 @@ Hospital_Management_System/
    - `CHECK (Valid_To >= Valid_From)` on insurance policies
    - `UNIQUE (Room_ID, Bed_Number)` on beds
 
+### 📐 Entity-Relationship (ER) Architecture (All 34 Tables)
+- **Live Interactive Viewer**: Open `/erd.html` (e.g. `http://localhost:5000/erd.html`) to interactively explore, zoom, and print/export the complete ER diagrams across all 8 modules.
+- **Detailed ER Specification**: Full Mermaid ER diagrams, attribute dictionaries, and referential integrity matrices are documented in [`database/ERD.md`](database/ERD.md).
+
 ---
 
 ## 📁 Project Directory Structure
@@ -102,8 +106,14 @@ Hospital_Management_System/
 ├── database/
 │   ├── database.sql        # Creates database with utf8mb4
 │   ├── schema.sql          # DDL for all 34 tables with PK, FK, CHECKs, Indexes
+│   ├── ERD.md              # Complete ER Diagram & 45-Foreign-Key relational matrix
 │   ├── seed.sql            # Fictional sample clinical data & bcrypt password hashes
 │   └── verification.sql    # 7-phase automated verification script
+│
+├── frontend/
+│   ├── index.html          # Main responsive hospital dashboard SPA
+│   ├── login.html          # Role-based hospital login portal
+│   ├── erd.html            # Interactive 34-Entity visual ER diagram viewer
 │
 ├── backend/
 │   ├── config/

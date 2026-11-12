@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediTrack HMS - Entity-Relationship (ER) Architecture (34 Entities)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f8fafc;
+      color: #1e293b;
+      margin: 0;
+      padding: 0;
+    }
+    .erd-navbar {
+      background: #091e3a;
+      color: white;
+      padding: 14px 28px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .erd-container {
+      max-width: 1500px;
+      margin: 24px auto;
+      padding: 0 20px;
+    }
+    .module-card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e2e8f0;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .mermaid-wrapper {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 20px;
+      overflow-x: auto;
+      text-align: center;
+    }
+    .nav-pills .nav-link {
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: #475569;
+      border-radius: 8px;
+      padding: 8px 16px;
+      margin-right: 6px;
+      margin-bottom: 6px;
+      border: 1px solid #e2e8f0;
+      background: white;
+    }
+    .nav-pills .nav-link.active {
+      background: #0284c7;
+      color: white;
+      border-color: #0284c7;
+    }
+    .badge-pill-db {
+      background: #e0f2fe;
+      color: #0369a1;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+    }
+    @media print {
+      .no-print { display: none !important; }
+      .erd-container { max-width: 100%; margin: 0; padding: 0; }
+      .module-card { border: none; box-shadow: none; page-break-after: always; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="erd-navbar d-flex flex-wrap align-items-center justify-content-between gap-3">
+  <div class="d-flex align-items-center gap-3">
+    <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #0284c7, #0d9488); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+      <i class="bi bi-diagram-3-fill"></i>
+    </div>
+    <div>
+      <h5 class="mb-0 fw-bold">MediTrack HMS &bull; Entity-Relationship Architecture</h5>
+      <small class="text-white-50" style="font-size: 0.78rem;">Relational Database Design &bull; Exactly 34 Entities &bull; 45 Referential Constraints</small>
+    </div>
+  </div>
+
+  <div class="d-flex align-items-center gap-2 no-print">
+    <span class="badge bg-success-subtle text-success px-3 py-2 border rounded-pill">
+      <i class="bi bi-check2-circle me-1"></i> MySQL 8.0 InnoDB
+    </span>
+    <button class="btn btn-outline-light btn-sm rounded-pill px-3 py-1.5" onclick="window.print()">
+      <i class="bi bi-printer me-1"></i> Print / PDF
+    </button>
+    <a href="/index.html" class="btn btn-primary btn-sm rounded-pill px-3 py-1.5" style="background: #0284c7; border: none;">
+      <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
+    </a>
+  </div>
+</header>
+
+<main class="erd-container">
+  <!-- Key Metrics Banner -->
+  <div class="module-card no-print">
+    <div class="row g-3 text-center">
+      <div class="col-md-3 col-6">
+        <div class="p-2 border rounded-3 bg-light">
+          <small class="text-muted d-block fw-semibold">Total Entities</small>
+          <h3 class="fw-bold text-primary mb-0">34</h3>
+          <small class="text-muted">All modules implemented</small>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="p-2 border rounded-3 bg-light">
+          <small class="text-muted d-block fw-semibold">Foreign Key Relations</small>
+          <h3 class="fw-bold text-success mb-0">45</h3>
+          <small class="text-muted">Strict referential integrity</small>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="p-2 border rounded-3 bg-light">
+          <small class="text-muted d-block fw-semibold">Database Engine</small>
+          <h3 class="fw-bold text-info mb-0">InnoDB</h3>
+          <small class="text-muted">ACID transaction support</small>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="p-2 border rounded-3 bg-light">
+          <small class="text-muted d-block fw-semibold">Normalization</small>
+          <h3 class="fw-bold text-dark mb-0">3NF / BCNF</h3>
+          <small class="text-muted">Zero anomaly schema</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <ul class="nav nav-pills mb-4 no-print" id="erd-tabs" role="tablist">
+    <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tab-master"><i class="bi bi-grid-3x3-gap-fill me-1"></i> Global Master ERD (All 34)</button></li>
+    <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-mod-a">Module A: Patients (4)</button></li>
+    <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-mod-b">Module B: Doctors & Staff (5)</button></li>
+    <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-mod-c">Module C: Rooms & Admissions (5)</button></li>
+    <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-mod-d">Module D: Medical Records & Rx (5)</button></li>
+    <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-mod-e">Module E: Laboratory (3)</button></li>
+    <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-mod-f">Module F: Pharmacy & Stock (5)</button></li>
+    <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-mod-g">Module G: Billing & Claims (5)</button></li>
+    <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-mod-h">Module H: Security & Audit (2)</button></li>
+    <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-fk-matrix"><i class="bi bi-table me-1"></i> 45 FK Constraints Table</button></li>
+  </ul>
+
+  <!-- Tab Content -->
+  <div class="tab-content" id="erd-tabs-content">
+
+    <!-- MASTER ERD -->
+    <div class="tab-pane fade show active" id="tab-master">
+      <div class="module-card">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <h5 class="fw-bold text-dark mb-1"><i class="bi bi-diagram-3 text-primary me-2"></i> Complete Global Master ER Diagram</h5>
+            <small class="text-muted">Interconnecting all 34 tables with cardinalities (1:1, 1:M, M:N resolved via associative tables)</small>
+          </div>
+          <span class="badge-pill-db">34 Tables / 45 Relationships</span>
+        </div>
+        <div class="mermaid-wrapper">
+          <pre class="mermaid">
+erDiagram
+    Department ||--o{ Staff : employs
+    Department ||--o{ Room : houses
+    Staff ||--o| Department : manages_as_head
+    Staff ||--|| Doctor : specializes_as
+    Staff ||--|| Nurse : specializes_as
+    Doctor ||--o{ Doctor_Schedule : has_duty
+
+    Patient ||--o{ Emergency_Contact : has_contact
+    Patient ||--o{ Patient_Medical_History : has_history
+    Patient ||--o{ Patient_Allergy : has_allergy
+
+    Room ||--o{ Bed : contains
+    Patient ||--o{ Appointment : schedules
+    Doctor ||--o{ Appointment : attends
+    Patient ||--o{ Admission : admitted_as
+    Doctor ||--o{ Admission : admits_and_attends
+    Admission ||--o{ Bed_Allocation : assigns
+    Bed ||--o{ Bed_Allocation : allocated_in
+
+    Patient ||--o{ Medical_Record : owns
+    Doctor ||--o{ Medical_Record : writes
+    Medical_Record ||--o{ Record_Diagnosis : includes
+    Diagnosis ||--o{ Record_Diagnosis : applied_in
+    Medical_Record ||--o{ Prescription : generates
+    Patient ||--o{ Prescription : prescribed_for
+    Doctor ||--o{ Prescription : authorizes
+    Prescription ||--o{ Prescription_Detail : contains
+    Medicine ||--o{ Prescription_Detail : dispenses
+
+    Patient ||--o{ Lab_Order : orders_for
+    Doctor ||--o{ Lab_Order : prescribes_test
+    Lab_Test ||--o{ Lab_Order : specifies
+    Lab_Order ||--|| Lab_Report : results_in
+    Staff ||--o{ Lab_Report : conducted_by
+
+    Supplier ||--o{ Purchase : supplies
+    Purchase ||--o{ Purchase_Item : itemizes
+    Medicine ||--o{ Purchase_Item : purchased
+    Medicine ||--o{ Medicine_Batch : tracked_as
+    Purchase_Item ||--o{ Medicine_Batch : stocks
+
+    Patient ||--o{ Bill : billed_to
+    Admission ||--o{ Bill : incurred_during
+    Bill ||--o{ Bill_Item : breaks_down
+    Bill ||--o{ Payment : paid_via
+    Patient ||--o{ Insurance : holds_policy
+    Insurance ||--o{ Insurance_Claim : claims_from
+    Bill ||--o{ Insurance_Claim : claimed_against
+
+    Staff ||--o| User_Account : credentials_for
+    Patient ||--o| User_Account : portal_access
+    User_Account ||--o{ Audit_Log : initiates
+          </pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE A -->
+    <div class="tab-pane fade" id="tab-mod-a">
+      <div class="module-card">
+        <h5 class="fw-bold text-dark mb-1">Module A: Patient Management (Tables 1 – 4)</h5>
+        <p class="text-muted small mb-3">Patient demographics, primary emergency contacts, pre-existing clinical history, and recorded drug/food allergies.</p>
+        <div class="mermaid-wrapper">
+          <pre class="mermaid">
+erDiagram
+    Patient ||--o{ Emergency_Contact : "1:M has"
+    Patient ||--o{ Patient_Medical_History : "1:M records"
+    Patient ||--o{ Patient_Allergy : "1:M exhibits"
+
+    Patient {
+        int Patient_ID PK
+        string First_Name
+        string Last_Name
+        date Date_Of_Birth
+        string Gender
+        string Blood_Group
+        string Phone UK
+        string Email UK
+        string Address
+        string Status
+    }
+
+    Emergency_Contact {
+        int Contact_ID PK
+        int Patient_ID FK
+        string Contact_Name
+        string Relationship
+        string Phone
+        string Address
+    }
+
+    Patient_Medical_History {
+        int History_ID PK
+        int Patient_ID FK
+        string Condition_Name
+        date Diagnosed_Date
+        string Status
+        string Notes
+    }
+
+    Patient_Allergy {
+        int Allergy_ID PK
+        int Patient_ID FK
+        string Allergen
+        string Reaction
+        string Severity
+    }
+          </pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE B -->
+    <div class="tab-pane fade" id="tab-mod-b">
+      <div class="module-card">
+        <h5 class="fw-bold text-dark mb-1">Module B: Doctor and Staff Management (Tables 5 – 9)</h5>
+        <p class="text-muted small mb-3">Implements table inheritance / specialization where Doctor and Nurse inherit from the Staff supertype entity.</p>
+        <div class="mermaid-wrapper">
+          <pre class="mermaid">
+erDiagram
+    Department ||--o{ Staff : "1:M employs"
+    Staff ||--o| Department : "1:0..1 heads"
+    Staff ||--|| Doctor : "1:1 specializes_as"
+    Staff ||--|| Nurse : "1:1 specializes_as"
+    Doctor ||--o{ Doctor_Schedule : "1:M weekly_roster"
+
+    Department {
+        int Department_ID PK
+        string Department_Name UK
+        int Head_Of_Department FK
+        string Location
+        string Contact_Number
+    }
+
+    Staff {
+        int Staff_ID PK
+        string First_Name
+        string Last_Name
+        string Email UK
+        string Phone UK
+        string Role
+        int Department_ID FK
+        date Date_Of_Joining
+        decimal Salary
+    }
+
+    Doctor {
+        int Doctor_ID PK_FK
+        string Specialization
+        string Qualification
+        string License_Number UK
+        decimal Consultation_Fee
+        string Room_Number
+    }
+
+    Nurse {
+        int Nurse_ID PK_FK
+        string Qualification
+        string License_Number UK
+        string Shift
+        string Assigned_Ward
+    }
+
+    Doctor_Schedule {
+        int Schedule_ID PK
+        int Doctor_ID FK
+        string Day_Of_Week
+        time Start_Time
+        time End_Time
+        int Max_Appointments
+    }
+          </pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE C -->
+    <div class="tab-pane fade" id="tab-mod-c">
+      <div class="module-card">
+        <h5 class="fw-bold text-dark mb-1">Module C: Appointments, Rooms & Admissions (Tables 10 – 14)</h5>
+        <p class="text-muted small mb-3">Manages hospital rooms, beds, outpatient appointments, and inpatient admission bed allocations.</p>
+        <div class="mermaid-wrapper">
+          <pre class="mermaid">
+erDiagram
+    Department ||--o{ Room : "1:M contains"
+    Room ||--o{ Bed : "1:M contains"
+    Patient ||--o{ Appointment : "1:M books"
+    Doctor ||--o{ Appointment : "1:M attends"
+    Patient ||--o{ Admission : "1:M admitted"
+    Doctor ||--o{ Admission : "1:M attends"
+    Admission ||--o{ Bed_Allocation : "1:M allocates"
+    Bed ||--o{ Bed_Allocation : "1:M occupied_by"
+
+    Room {
+        int Room_ID PK
+        string Room_Number UK
+        string Room_Type
+        int Department_ID FK
+        decimal Daily_Rate
+        string Status
+    }
+
+    Bed {
+        int Bed_ID PK
+        int Room_ID FK
+        string Bed_Number
+        string Status
+    }
+
+    Appointment {
+        int Appointment_ID PK
+        int Patient_ID FK
+        int Doctor_ID FK
+        date Appointment_Date
+        time Appointment_Time
+        string Reason
+        string Status
+    }
+
+    Admission {
+        int Admission_ID PK
+        int Patient_ID FK
+        int Attending_Doctor_ID FK
+        datetime Admitted_Date
+        datetime Discharge_Date
+        string Admission_Type
+        string Status
+    }
+
+    Bed_Allocation {
+        int Allocation_ID PK
+        int Admission_ID FK
+        int Bed_ID FK
+        datetime Allocated_From
+        datetime Allocated_To
+        string Status
+    }
+          </pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE D -->
+    <div class="tab-pane fade" id="tab-mod-d">
+      <div class="module-card">
+        <h5 class="fw-bold text-dark mb-1">Module D: Medical Records, Diagnoses & Prescriptions (Tables 15 – 19)</h5>
+        <p class="text-muted small mb-3">Resolves M:N relationships via Record_Diagnosis and Prescription_Detail associative entities.</p>
+        <div class="mermaid-wrapper">
+          <pre class="mermaid">
+erDiagram
+    Patient ||--o{ Medical_Record : "1:M has_record"
+    Doctor ||--o{ Medical_Record : "1:M writes"
+    Medical_Record ||--o{ Record_Diagnosis : "1:M"
+    Diagnosis ||--o{ Record_Diagnosis : "1:M (Resolves M:N)"
+    Medical_Record ||--o{ Prescription : "1:M generates"
+    Patient ||--o{ Prescription : "1:M receives"
+    Doctor ||--o{ Prescription : "1:M authorizes"
+    Prescription ||--o{ Prescription_Detail : "1:M"
+    Medicine ||--o{ Prescription_Detail : "1:M (Resolves M:N)"
+
+    Medical_Record {
+        int Record_ID PK
+        int Patient_ID FK
+        int Doctor_ID FK
+        datetime Visit_Date
+        string Symptoms
+        string Treatment_Notes
+    }
+
+    Diagnosis {
+        int Diagnosis_ID PK
+        string ICD_Code UK
+        string Diagnosis_Name
+        string Category
+    }
+
+    Record_Diagnosis {
+        int Record_ID PK_FK
+        int Diagnosis_ID PK_FK
+        string Severity
+        datetime Recorded_Date
+    }
+
+    Prescription {
+        int Prescription_ID PK
+        int Record_ID FK
+        int Patient_ID FK
+        int Doctor_ID FK
+        datetime Prescribed_Date
+    }
+
+    Prescription_Detail {
+        int Prescription_Detail_ID PK
+        int Prescription_ID FK
+        int Medicine_ID FK
+        string Dosage
+        string Frequency
+        int Duration_Days
+        int Quantity
+    }
+
+    Medicine {
+        int Medicine_ID PK
+        string Medicine_Name
+        decimal Unit_Price
+        int Stock_Quantity
+    }
+          </pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE E -->
+    <div class="tab-pane fade" id="tab-mod-e">
+      <div class="module-card">
+        <h5 class="fw-bold text-dark mb-1">Module E: Laboratory Management (Tables 20 – 22)</h5>
+        <p class="text-muted small mb-3">Handles pathology investigations with a strict 1:1 relationship between orders and finalized reports.</p>
+        <div class="mermaid-wrapper">
+          <pre class="mermaid">
+erDiagram
+    Patient ||--o{ Lab_Order : "1:M requested_for"
+    Doctor ||--o{ Lab_Order : "1:M ordered_by"
+    Lab_Test ||--o{ Lab_Order : "1:M test_type"
+    Lab_Order ||--|| Lab_Report : "1:1 finalized_as"
+    Staff ||--o{ Lab_Report : "1:M conducted_by"
+
+    Lab_Test {
+        int Test_ID PK
+        string Test_Name UK
+        string Category
+        decimal Cost
+        string Normal_Range
+    }
+
+    Lab_Order {
+        int Order_ID PK
+        int Patient_ID FK
+        int Doctor_ID FK
+        int Test_ID FK
+        datetime Order_Date
+        string Priority
+        string Status
+    }
+
+    Lab_Report {
+        int Report_ID PK
+        int Order_ID UK_FK
+        int Conducted_By FK
+        string Result_Value
+        datetime Report_Date
+        string Status
+    }
+          </pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE F -->
+    <div class="tab-pane fade" id="tab-mod-f">
+      <div class="module-card">
+        <h5 class="fw-bold text-dark mb-1">Module F: Pharmacy & Medicine Management (Tables 23 – 27)</h5>
+        <p class="text-muted small mb-3">Resolves purchase M:N links and tracks medicine batches with safety expiry dates.</p>
+        <div class="mermaid-wrapper">
+          <pre class="mermaid">
+erDiagram
+    Supplier ||--o{ Purchase : "1:M supplies"
+    Purchase ||--o{ Purchase_Item : "1:M itemizes"
+    Medicine ||--o{ Purchase_Item : "1:M (Resolves M:N)"
+    Medicine ||--o{ Medicine_Batch : "1:M batches"
+    Purchase_Item ||--o{ Medicine_Batch : "1:M supplies_batch"
+
+    Supplier {
+        int Supplier_ID PK
+        string Supplier_Name UK
+        string Contact_Person
+        string Phone
+        string Status
+    }
+
+    Purchase {
+        int Purchase_ID PK
+        int Supplier_ID FK
+        datetime Purchase_Date
+        decimal Total_Amount
+        string Status
+    }
+
+    Purchase_Item {
+        int Purchase_Item_ID PK
+        int Purchase_ID FK
+        int Medicine_ID FK
+        int Quantity
+        decimal Unit_Cost
+        decimal Total_Price
+    }
+
+    Medicine {
+        int Medicine_ID PK
+        string Medicine_Name
+        decimal Unit_Price
+        int Stock_Quantity
+        int Reorder_Level
+    }
+
+    Medicine_Batch {
+        int Batch_ID PK
+        int Medicine_ID FK
+        string Batch_Number
+        date Manufacturing_Date
+        date Expiry_Date
+        int Quantity
+    }
+          </pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE G -->
+    <div class="tab-pane fade" id="tab-mod-g">
+      <div class="module-card">
+        <h5 class="fw-bold text-dark mb-1">Module G: Billing & Health Insurance (Tables 28 – 32)</h5>
+        <p class="text-muted small mb-3">Itemized invoicing, payment receipts, insurance policies, and cashless claim settlements.</p>
+        <div class="mermaid-wrapper">
+          <pre class="mermaid">
+erDiagram
+    Patient ||--o{ Bill : "1:M billed_to"
+    Admission ||--o{ Bill : "1:0..M charged_during"
+    Bill ||--o{ Bill_Item : "1:M breaks_down"
+    Bill ||--o{ Payment : "1:M settled_by"
+    Patient ||--o{ Insurance : "1:M holds_policy"
+    Insurance ||--o{ Insurance_Claim : "1:M claims"
+    Bill ||--o{ Insurance_Claim : "1:M covers"
+
+    Bill {
+        int Bill_ID PK
+        int Patient_ID FK
+        int Admission_ID FK
+        datetime Bill_Date
+        decimal Total_Amount
+        decimal Net_Amount
+        decimal Paid_Amount
+        string Payment_Status
+    }
+
+    Bill_Item {
+        int Bill_Item_ID PK
+        int Bill_ID FK
+        string Item_Type
+        string Description
+        int Quantity
+        decimal Unit_Price
+        decimal Total_Price
+    }
+
+    Payment {
+        int Payment_ID PK
+        int Bill_ID FK
+        datetime Payment_Date
+        decimal Amount
+        string Payment_Method
+        string Transaction_Reference UK
+    }
+
+    Insurance {
+        int Insurance_ID PK
+        int Patient_ID FK
+        string Provider_Name
+        string Policy_Number UK
+        decimal Coverage_Limit
+        date Valid_From
+        date Valid_To
+    }
+
+    Insurance_Claim {
+        int Claim_ID PK
+        int Insurance_ID FK
+        int Bill_ID FK
+        decimal Claimed_Amount
+        decimal Approved_Amount
+        string Claim_Status
+    }
+          </pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE H -->
+    <div class="tab-pane fade" id="tab-mod-h">
+      <div class="module-card">
+        <h5 class="fw-bold text-dark mb-1">Module H: Security & Audit Logging (Tables 33 – 34)</h5>
+        <p class="text-muted small mb-3">Role-Based Access Control (RBAC) linked to staff or patient records, with immutable JSON audit trail.</p>
+        <div class="mermaid-wrapper">
+          <pre class="mermaid">
+erDiagram
+    Staff ||--o| User_Account : "1:0..1 staff_login"
+    Patient ||--o| User_Account : "1:0..1 patient_login"
+    User_Account ||--o{ Audit_Log : "1:M performs_action"
+
+    User_Account {
+        int User_ID PK
+        string Username UK
+        string Password_Hash
+        string Role
+        int Staff_ID FK
+        int Patient_ID FK
+        string Status
+    }
+
+    Audit_Log {
+        int Log_ID PK
+        int User_ID FK
+        string Action
+        string Entity_Name
+        int Entity_ID
+        string IP_Address
+        datetime Timestamp
+    }
+          </pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- FK MATRIX -->
+    <div class="tab-pane fade" id="tab-fk-matrix">
+      <div class="module-card">
+        <h5 class="fw-bold text-dark mb-2"><i class="bi bi-shield-check text-success me-2"></i> Complete 45 Referential Integrity Constraints Matrix</h5>
+        <p class="text-muted small mb-3">All 45 foreign-key relationships enforced at the MySQL 8.0 InnoDB storage layer with referential integrity rules.</p>
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered table-sm align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>#</th>
+                <th>Child Table</th>
+                <th>Foreign Key</th>
+                <th>Parent Table</th>
+                <th>Parent Column</th>
+                <th>Cardinality</th>
+                <th>On Delete</th>
+                <th>Relationship Meaning</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td><code>Department</code></td><td>Head_Of_Department</td><td><code>Staff</code></td><td>Staff_ID</td><td>1:0..1</td><td>SET NULL</td><td>Department chairperson</td></tr>
+              <tr><td>2</td><td><code>Staff</code></td><td>Department_ID</td><td><code>Department</code></td><td>Department_ID</td><td>1:M</td><td>RESTRICT</td><td>Employee department</td></tr>
+              <tr><td>3</td><td><code>Doctor</code></td><td>Doctor_ID</td><td><code>Staff</code></td><td>Staff_ID</td><td>1:1</td><td>CASCADE</td><td>Specialization subtype of Staff</td></tr>
+              <tr><td>4</td><td><code>Nurse</code></td><td>Nurse_ID</td><td><code>Staff</code></td><td>Staff_ID</td><td>1:1</td><td>CASCADE</td><td>Specialization subtype of Staff</td></tr>
+              <tr><td>5</td><td><code>Doctor_Schedule</code></td><td>Doctor_ID</td><td><code>Doctor</code></td><td>Doctor_ID</td><td>1:M</td><td>CASCADE</td><td>Weekly consultation roster</td></tr>
+              <tr><td>6</td><td><code>Emergency_Contact</code></td><td>Patient_ID</td><td><code>Patient</code></td><td>Patient_ID</td><td>1:M</td><td>CASCADE</td><td>Primary emergency contact</td></tr>
+              <tr><td>7</td><td><code>Patient_Medical_History</code></td><td>Patient_ID</td><td><code>Patient</code></td><td>Patient_ID</td><td>1:M</td><td>CASCADE</td><td>Pre-existing conditions</td></tr>
+              <tr><td>8</td><td><code>Patient_Allergy</code></td><td>Patient_ID</td><td><code>Patient</code></td><td>Patient_ID</td><td>1:M</td><td>CASCADE</td><td>Known drug/food allergies</td></tr>
+              <tr><td>9</td><td><code>Room</code></td><td>Department_ID</td><td><code>Department</code></td><td>Department_ID</td><td>1:M</td><td>RESTRICT</td><td>Department ward location</td></tr>
+              <tr><td>10</td><td><code>Bed</code></td><td>Room_ID</td><td><code>Room</code></td><td>Room_ID</td><td>1:M</td><td>CASCADE</td><td>Bed inside room</td></tr>
+              <tr><td>11</td><td><code>Appointment</code></td><td>Patient_ID</td><td><code>Patient</code></td><td>Patient_ID</td><td>1:M</td><td>RESTRICT</td><td>Consultation booking</td></tr>
+              <tr><td>12</td><td><code>Appointment</code></td><td>Doctor_ID</td><td><code>Doctor</code></td><td>Doctor_ID</td><td>1:M</td><td>RESTRICT</td><td>Consulting doctor</td></tr>
+              <tr><td>13</td><td><code>Admission</code></td><td>Patient_ID</td><td><code>Patient</code></td><td>Patient_ID</td><td>1:M</td><td>RESTRICT</td><td>Inpatient hospital stay</td></tr>
+              <tr><td>14</td><td><code>Admission</code></td><td>Attending_Doctor_ID</td><td><code>Doctor</code></td><td>Doctor_ID</td><td>1:M</td><td>RESTRICT</td><td>Attending physician</td></tr>
+              <tr><td>15</td><td><code>Bed_Allocation</code></td><td>Admission_ID</td><td><code>Admission</code></td><td>Admission_ID</td><td>1:M</td><td>RESTRICT</td><td>Admission bed session</td></tr>
+              <tr><td>16</td><td><code>Bed_Allocation</code></td><td>Bed_ID</td><td><code>Bed</code></td><td>Bed_ID</td><td>1:M</td><td>RESTRICT</td><td>Specific bed occupied</td></tr>
+              <tr><td>17</td><td><code>Medical_Record</code></td><td>Patient_ID</td><td><code>Patient</code></td><td>Patient_ID</td><td>1:M</td><td>RESTRICT</td><td>Patient examined</td></tr>
+              <tr><td>18</td><td><code>Medical_Record</code></td><td>Doctor_ID</td><td><code>Doctor</code></td><td>Doctor_ID</td><td>1:M</td><td>RESTRICT</td><td>Doctor clinical note</td></tr>
+              <tr><td>19</td><td><code>Record_Diagnosis</code></td><td>Record_ID</td><td><code>Medical_Record</code></td><td>Record_ID</td><td>1:M</td><td>CASCADE</td><td>Encounter to diagnosis (M:N)</td></tr>
+              <tr><td>20</td><td><code>Record_Diagnosis</code></td><td>Diagnosis_ID</td><td><code>Diagnosis</code></td><td>Diagnosis_ID</td><td>1:M</td><td>RESTRICT</td><td>ICD-10 classification</td></tr>
+              <tr><td>21</td><td><code>Prescription</code></td><td>Record_ID</td><td><code>Medical_Record</code></td><td>Record_ID</td><td>1:M</td><td>CASCADE</td><td>Encounter generating Rx</td></tr>
+              <tr><td>22</td><td><code>Prescription</code></td><td>Patient_ID</td><td><code>Patient</code></td><td>Patient_ID</td><td>1:M</td><td>RESTRICT</td><td>Patient receiving medicine</td></tr>
+              <tr><td>23</td><td><code>Prescription</code></td><td>Doctor_ID</td><td><code>Doctor</code></td><td>Doctor_ID</td><td>1:M</td><td>RESTRICT</td><td>Doctor prescribing</td></tr>
+              <tr><td>24</td><td><code>Prescription_Detail</code></td><td>Prescription_ID</td><td><code>Prescription</code></td><td>Prescription_ID</td><td>1:M</td><td>CASCADE</td><td>Prescription item (M:N)</td></tr>
+              <tr><td>25</td><td><code>Prescription_Detail</code></td><td>Medicine_ID</td><td><code>Medicine</code></td><td>Medicine_ID</td><td>1:M</td><td>RESTRICT</td><td>Medicine formulation</td></tr>
+              <tr><td>26</td><td><code>Lab_Order</code></td><td>Patient_ID</td><td><code>Patient</code></td><td>Patient_ID</td><td>1:M</td><td>RESTRICT</td><td>Patient test request</td></tr>
+              <tr><td>27</td><td><code>Lab_Order</code></td><td>Doctor_ID</td><td><code>Doctor</code></td><td>Doctor_ID</td><td>1:M</td><td>RESTRICT</td><td>Referring physician</td></tr>
+              <tr><td>28</td><td><code>Lab_Order</code></td><td>Test_ID</td><td><code>Lab_Test</code></td><td>Test_ID</td><td>1:M</td><td>RESTRICT</td><td>Diagnostic test type</td></tr>
+              <tr><td>29</td><td><code>Lab_Report</code></td><td>Order_ID</td><td><code>Lab_Order</code></td><td>Order_ID</td><td>1:1</td><td>CASCADE</td><td>Report for order</td></tr>
+              <tr><td>30</td><td><code>Lab_Report</code></td><td>Conducted_By</td><td><code>Staff</code></td><td>Staff_ID</td><td>1:M</td><td>RESTRICT</td><td>Lab technician</td></tr>
+              <tr><td>31</td><td><code>Purchase</code></td><td>Supplier_ID</td><td><code>Supplier</code></td><td>Supplier_ID</td><td>1:M</td><td>RESTRICT</td><td>Pharma supplier</td></tr>
+              <tr><td>32</td><td><code>Purchase_Item</code></td><td>Purchase_ID</td><td><code>Purchase</code></td><td>Purchase_ID</td><td>1:M</td><td>CASCADE</td><td>Invoice line item (M:N)</td></tr>
+              <tr><td>33</td><td><code>Purchase_Item</code></td><td>Medicine_ID</td><td><code>Medicine</code></td><td>Medicine_ID</td><td>1:M</td><td>RESTRICT</td><td>Medicine restocked</td></tr>
+              <tr><td>34</td><td><code>Medicine_Batch</code></td><td>Medicine_ID</td><td><code>Medicine</code></td><td>Medicine_ID</td><td>1:M</td><td>CASCADE</td><td>Batch manufactured</td></tr>
+              <tr><td>35</td><td><code>Medicine_Batch</code></td><td>Purchase_Item_ID</td><td><code>Purchase_Item</code></td><td>Purchase_Item_ID</td><td>1:0..M</td><td>SET NULL</td><td>Originating purchase</td></tr>
+              <tr><td>36</td><td><code>Bill</code></td><td>Patient_ID</td><td><code>Patient</code></td><td>Patient_ID</td><td>1:M</td><td>RESTRICT</td><td>Patient billed</td></tr>
+              <tr><td>37</td><td><code>Bill</code></td><td>Admission_ID</td><td><code>Admission</code></td><td>Admission_ID</td><td>1:0..M</td><td>SET NULL</td><td>Inpatient stay linked</td></tr>
+              <tr><td>38</td><td><code>Bill_Item</code></td><td>Bill_ID</td><td><code>Bill</code></td><td>Bill_ID</td><td>1:M</td><td>CASCADE</td><td>Itemized charges</td></tr>
+              <tr><td>39</td><td><code>Payment</code></td><td>Bill_ID</td><td><code>Bill</code></td><td>Bill_ID</td><td>1:M</td><td>RESTRICT</td><td>Payment transaction</td></tr>
+              <tr><td>40</td><td><code>Insurance</code></td><td>Patient_ID</td><td><code>Patient</code></td><td>Patient_ID</td><td>1:M</td><td>RESTRICT</td><td>Insurance policy</td></tr>
+              <tr><td>41</td><td><code>Insurance_Claim</code></td><td>Insurance_ID</td><td><code>Insurance</code></td><td>Insurance_ID</td><td>1:M</td><td>RESTRICT</td><td>Policy claimed</td></tr>
+              <tr><td>42</td><td><code>Insurance_Claim</code></td><td>Bill_ID</td><td><code>Bill</code></td><td>Bill_ID</td><td>1:M</td><td>RESTRICT</td><td>Bill covered by claim</td></tr>
+              <tr><td>43</td><td><code>User_Account</code></td><td>Staff_ID</td><td><code>Staff</code></td><td>Staff_ID</td><td>1:0..1</td><td>SET NULL</td><td>Employee login account</td></tr>
+              <tr><td>44</td><td><code>User_Account</code></td><td>Patient_ID</td><td><code>Patient</code></td><td>Patient_ID</td><td>1:0..1</td><td>SET NULL</td><td>Patient portal login</td></tr>
+              <tr><td>45</td><td><code>Audit_Log</code></td><td>User_ID</td><td><code>User_Account</code></td><td>User_ID</td><td>1:M</td><td>SET NULL</td><td>Action author</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'default',
+    themeVariables: {
+      primaryColor: '#e0f2fe',
+      primaryBorderColor: '#0284c7',
+      primaryTextColor: '#0f172a',
+      lineColor: '#64748b',
+      secondaryColor: '#f0fdf4',
+      tertiaryColor: '#fef3c7'
+    }
+  });
+
+  // Re-render mermaid when switching tabs if needed
+  document.querySelectorAll('button[data-bs-toggle="pill"]').forEach(tab => {
+    tab.addEventListener('shown.bs.tab', () => {
+      mermaid.contentLoaded();
+    });
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
